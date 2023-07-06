@@ -25,11 +25,13 @@ Manage musical repertoire by adding pieces to a database
 
 - Add funcionality to let the user list the entries, edit or delete them
 - Add funcionality that sugests when the user should play the piece again in order to help the memorization process, based on spaced repetition principles
+- [Color palette](https://coolors.co/1b264f-274690-576ca8-302b27-f5f3f5)
 
 ## Todos
 - [x] Create database
-- [ ] Create tables
-- [ ] Estabilish database connection in Python / Flask
+- [x] Create tables
+- [x] Estabilish database connection in Python / Flask
+- [ ] Create basic page layout
 
 
 
