@@ -1,4 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Overlock+SC&display=swap');
+
+html {
+   height: 100%;
+}
+
 body {
-   background-color: #576ca8;
-   background-image: linear-gradient(#576CA8, #274690, #1B264F);
+   background:
+   linear-gradient(200deg, rgba(27, 38, 79, 0.8), transparent),
+   linear-gradient(100deg, rgba(39, 70, 144, 0.8), transparent),
+   linear-gradient(300deg, rgba(87, 108, 168, 0.8), transparent);
+   background-repeat: no-repeat;
+   color: #f5f3f5;
+}
+
+.navbar-bg-custom {
+   background-color: #302b27;
+}
+
+#icon {
+   vertical-align: middle;
+}
+
+#logo {
+   font-family: 'Overlock SC', cursive;
+   font-size: 20px;
+}
+
+#reg-form {
+   background-color: #1b264f;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+   background-color: #576ca8 !important;
+   border-color: transparent;
 }
