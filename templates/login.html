@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block main %}
+    <div>
+        <h1 class="pb-5">Welcome to Repertoire Manager!</h1>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <form action="/login" method= "post" class="border py-5 m-auto w-75 text-center border-0 rounded-4" id="reg-form">
+                        <div class="mb-3 py-1">
+                            <input type="email" name="email" placeholder="Email address" class="form-control mx-auto w-75">
+                        </div>
+                        <div class="mb-3 py-1">
+                            <input type="password" name="password" placeholder="Password" class="form-control mx-auto w-75">
+                        </div>
+                        <button type="submit" class="btn btn-primary fs-4">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -31,7 +31,9 @@ Manage musical repertoire by adding pieces to a database
 - [x] Create database
 - [x] Create tables
 - [x] Estabilish database connection in Python / Flask
-- [ ] Create basic page layout
+- [x] Create basic page layout
+- [x] Signup route
+- [ ] Login route
 
 
 

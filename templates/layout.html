@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-bg-custom">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-custom">
         <div class="container-fluid">
           <a class="navbar-brand" href="#" id="logo" class="ms-auto">Repertoire Manager</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,42 +20,27 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link"href="#">Register</a>
+                <a class="nav-link"href="/signup">Register</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
+                <a class="nav-link" href="/login">Login</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
 
-      <main class="container text-center py-5">
-        <div>
-            <h1 class="pb-5">Welcome to Repertoire Manager!</h1>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-8 col-sm-10">
-                        <form class="border py-5 m-auto w-75 text-center" id="reg-form">
-                            <h2>Register here!</h2>
-                            <div class="mb-3 py-1">
-                                <input type="email" name="email" placeholder="Email address" class="form-control mx-auto w-auto">
-                            </div>
-                            <div class="mb-3 py-1">
-                                <input type="password" name="password" placeholder="Password" class="form-control mx-auto w-auto">
-                            </div>
-                            <div class="mb-3 py-1">
-                                <input type="password" name="confirmation" placeholder="Confirm password" class="form-control mx-auto w-auto">
-                            </div>
-            
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
+      {% if get_flashed_messages() %}
+        <div class="row justify-content-center">
+          <div class="col-4 text-center alert alert-primary mt-5 alert-dismissible fade show" role="alert">
+            {{ get_flashed_messages() | join(" ")}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>        
+      {% endif %}
 
-        </div>
+      <main class="container text-center py-5">
+        {% block main %}{% endblock %}
       </main>
 
 </body>
