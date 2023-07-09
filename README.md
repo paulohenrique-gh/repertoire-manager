@@ -33,7 +33,10 @@ Manage musical repertoire by adding pieces to a database
 - [x] Estabilish database connection in Python / Flask
 - [x] Create basic page layout
 - [x] Signup route
-- [ ] Login route
+- [x] Login route
+- [ ] Form for adding pieces
+- [ ] Page with index of all registered pieces
+- [ ] Table with dates and pieces to play on each day
 
 
 

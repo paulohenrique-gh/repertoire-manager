@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Agdasima&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Overlock+SC&display=swap');
 
 html {
-   height: 100%;
+   min-height: 100%;
 }
 
 body {
@@ -10,11 +10,13 @@ body {
       linear-gradient(100deg, rgba(39, 70, 144, 0.8), transparent),
       linear-gradient(300deg, rgba(87, 108, 168, 0.8), transparent);
    background-repeat: no-repeat;
+   background-size: auto;
    color: #f5f3f5;
+   
 }
 
 .bg-custom {
-   background-color: #302b27;
+   background-color: #302b27da;
 }
 
 #icon {
@@ -40,4 +42,8 @@ body {
    background-color: rgba(48, 43, 39, 0.65) !important;
      
    border-color: transparent;
+}
+
+.form-labels {
+   color: #f5f3f5;
 }

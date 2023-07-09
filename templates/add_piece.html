@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add piece
+{% endblock %}
+
+{% block main %}
+    <h1 class="pb-5 fw-bolder">Add a new piece</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <form action="/add_piece" method="post" class="border py-5 m-auto w-75 text-center border-0 rounded-4" id="reg-form">
+                    <div class="mb-3 d-block text-start px-5">
+                        <label for="title" class="form-label fw-bold form-labels">Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="Moonlight Sonata">
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-4">
+                                <label for="title" class="form-label fw-bold form-labels">Opus</label>
+                                <input type="number" name="opus" class="form-control" placeholder="27">
+                            </div>
+                            <div class="col-4">
+                                <label for="title" class="form-label fw-bold form-labels">Number</label>
+                                <input type="number" name="number_in_opus" class="form-control" placeholder="2">
+                            </div>
+                            <div class="col-4">
+                                <label for="title" class="form-label fw-bold form-labels">Movement</label>
+                                <input type="number" name="movement" class="form-control" placeholder="3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <label for="title" class="form-label fw-bold form-labels">Composer</label>
+                        <input type="text" name="composer" class="form-control" placeholder="Ludwig Van Beethoven">
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <label for="title" class="form-label fw-bold form-labels">Start date</label>
+                                <input type="date" name="start_date" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="title" class="form-label fw-bold form-labels">Finish date</label>
+                                <input type="date" name="finish_date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <label for="title" class="form-label fw-bold form-labels">Instrument</label>
+                                <input type="text" name="instrument" class="form-control" placeholder="Piano">
+                            </div>
+                            <div class="col-6">
+                                <label for="title" class="form-label fw-bold form-labels">Difficulty level</label>
+                                <input type="number" name="difficulty_level" class="form-control" placeholder="10">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
