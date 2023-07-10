@@ -40,10 +40,18 @@ body {
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
    background-color: rgba(48, 43, 39, 0.65) !important;
-     
+   
    border-color: transparent;
 }
 
 .form-labels {
    color: #f5f3f5;
+}
+
+.center-div {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   text-align: center;
 }

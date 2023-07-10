@@ -28,7 +28,7 @@
                   <a class="nav-link" href="#">My repertoire</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Calender</a>
+                  <a class="nav-link" href="#">Calendar</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/logout">Logout</a>
@@ -49,17 +49,18 @@
         </div>
       </nav>
 
-      {% if get_flashed_messages() %}
-        <div class="row justify-content-center">
-          <div class="col-4 text-center alert alert-primary mt-5 alert-dismissible fade show fw-bold" role="alert">
-            {{ get_flashed_messages() | join(" ")}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        </div>        
-      {% endif %}
+      
 
-      <main class="container text-center py-5">
-        {% block main %}{% endblock %}
+      <main class="container text-center py-5 my-5">
+        {% if get_flashed_messages() %}
+          <div class="row justify-content-center">
+            <div class="col-4 text-center alert alert-primary alert-dismissible fade show fw-bold" role="alert">
+              {{ get_flashed_messages() | join(" ")}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>        
+        {% endif %}
+          {% block main %}{% endblock %}
       </main>
 
 </body>

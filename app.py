@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 import mysql.connector
@@ -5,6 +6,7 @@ from flask import Flask, flash, render_template, request, session, redirect
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from error_messages import *
+from helpers import *
 from flask_session import Session
 
 app = Flask(__name__)
@@ -143,6 +145,70 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/add_piece")
+@app.route("/add_piece", methods=["GET", "POST"])
 def add_piece():
+
+    if request.method == "POST":
+
+        # Title validation and debugging
+        title = request.form.get("title")
+        if not title:
+            flash("Make sure the required fields are not left empty.")
+            return redirect("/add_piece")
+        print("Title: ", title, ", type: ", type(title))
+
+        # Opus validation and debugging
+        opus = request.form.get("opus")
+        if opus.isdigit():
+            opus = int(opus)
+        else: 
+            opus = 0
+        print("Opus: ", opus, ", type: ", type(opus))
+
+        # Number in opus validation and debugging
+        number_in_opus = request.form.get("number_in_opus")
+        if number_in_opus.isdigit():
+            number_in_opus = int(number_in_opus)
+        else:
+            number_in_opus = 0
+        print("Number: ", number_in_opus, ", type: ", type(number_in_opus))
+
+        # Movement validation and debugging
+        movement = request.form.get("movement")
+        if movement.isdigit():
+            movement = int(movement)
+        else:
+            movement = 0
+        print("Movement: ", movement, ", type: ", type(movement))
+
+        # Composer validation
+        composer = request.form.get("composer")
+        if not composer:
+            flash("Make sure the required fields are not left empty.")
+        print("Composer: ", composer, ", type: ", type(composer))
+
+        # Start date parsing and debugging
+        start_date = datetime.strptime(request.form.get("start_date"), "%Y-%m-%d").date()
+        print("Start date: ", start_date, ", type: ", type(start_date))
+
+        # TODO Finish date parsing and debugging
+        finish_date = request.form.get("finish_date")
+        print("Finish date: ", finish_date, ", type: ", type(finish_date))
+
+        instrument = request.form.get("instrument")
+        print("Instrument: ", instrument, ", type: ", type(instrument))
+
+        difficulty_level = request.form.get("difficulty_level")
+        print("Difficulty level: ", difficulty_level, ", type: ", type(difficulty_level))
+
+        add_to_repertoire = request.form.get("add_to_repertoire")
+        if add_to_repertoire:
+            add_to_repertoire = True
+        else:
+            add_to_repertoire = False
+        print("Add to repertoire: ", add_to_repertoire, ", type: ", type(add_to_repertoire))
+
+        
+        return render_template("add_piece.html")
+
     return render_template("add_piece.html")
