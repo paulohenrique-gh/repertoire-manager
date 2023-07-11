@@ -1,11 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta, date
 import re
 
 import mysql.connector
 from flask import Flask, flash, render_template, request, session, redirect
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from error_messages import *
 from helpers import *
 from flask_session import Session
 
@@ -16,17 +15,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 
 Session(app)
-
-# Configure MySQL connection
-def db_connect():
-    db_connection = mysql.connector.connect(
-        host="localhost",
-        username="root",
-        password="db@2023",
-        database="music_pieces"
-    )
-    return db_connection
-
 
 
 @app.route("/")
@@ -130,8 +118,7 @@ def login():
             flash("Invalid username and/or password")      
 
         # Save user id in session
-        session["user_id"] = rows[0]["id"]
-        
+        session["user_id"] = rows[0]["id"]        
 
         return redirect("/")
 
@@ -148,67 +135,112 @@ def logout():
 @app.route("/add_piece", methods=["GET", "POST"])
 def add_piece():
 
+    if not is_logged_in():
+        return redirect("/login")
+
     if request.method == "POST":
 
-        # Title validation and debugging
-        title = request.form.get("title")
-        if not title:
-            flash("Make sure the required fields are not left empty.")
-            return redirect("/add_piece")
-        print("Title: ", title, ", type: ", type(title))
+        user_id = session["user_id"]
 
-        # Opus validation and debugging
+        # Title validation
+        title = request.form.get("title").lower()
+        if not title:
+            flash("A required field was left empty.")
+            return redirect("/add_piece")
+
+        # Opus validation
         opus = request.form.get("opus")
         if opus.isdigit():
             opus = int(opus)
         else: 
-            opus = 0
-        print("Opus: ", opus, ", type: ", type(opus))
+            opus = None
 
-        # Number in opus validation and debugging
+        # Number in opus validation
         number_in_opus = request.form.get("number_in_opus")
         if number_in_opus.isdigit():
             number_in_opus = int(number_in_opus)
         else:
-            number_in_opus = 0
-        print("Number: ", number_in_opus, ", type: ", type(number_in_opus))
+            number_in_opus = None
 
-        # Movement validation and debugging
+        # Movement validation
         movement = request.form.get("movement")
         if movement.isdigit():
             movement = int(movement)
         else:
-            movement = 0
-        print("Movement: ", movement, ", type: ", type(movement))
+            movement = None
+
+        # Period validation
+        period = request.form.get("period").lower()
+        if not period:
+            flash("A required field was left empty.")
+            return redirect("/add_piece")
+        else:
+            period = get_period_id(period)
 
         # Composer validation
-        composer = request.form.get("composer")
+        composer = request.form.get("composer").lower()
         if not composer:
-            flash("Make sure the required fields are not left empty.")
-        print("Composer: ", composer, ", type: ", type(composer))
+            flash("A required field was left empty.")
+            return redirect("/add_piece")
+        else:
+            composer = get_composer_id(composer, period)
 
-        # Start date parsing and debugging
-        start_date = datetime.strptime(request.form.get("start_date"), "%Y-%m-%d").date()
-        print("Start date: ", start_date, ", type: ", type(start_date))
+        # Instrument validation
+        instrument = request.form.get("instrument").lower()
+        if not instrument:
+            instrument = None
+        else: 
+            instrument = get_instrument_id(instrument)        
 
-        # TODO Finish date parsing and debugging
-        finish_date = request.form.get("finish_date")
-        print("Finish date: ", finish_date, ", type: ", type(finish_date))
-
-        instrument = request.form.get("instrument")
-        print("Instrument: ", instrument, ", type: ", type(instrument))
-
+        # Difficulty level validation
         difficulty_level = request.form.get("difficulty_level")
-        print("Difficulty level: ", difficulty_level, ", type: ", type(difficulty_level))
+        if difficulty_level.isdigit():
+            difficulty_level = int(difficulty_level)
+        else:
+            difficulty_level = None
 
+        # IsInRepertoire validation
         add_to_repertoire = request.form.get("add_to_repertoire")
         if add_to_repertoire:
             add_to_repertoire = True
         else:
             add_to_repertoire = False
-        print("Add to repertoire: ", add_to_repertoire, ", type: ", type(add_to_repertoire))
 
-        
+        # Start date validation
+        start_date = request.form.get("start_date")
+        date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
+        if start_date and date_pattern.match(start_date):
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            # days_to_add = timedelta(days=7) # testing timedelta
+            # print(f"Added 7 days: {start_date + days_to_add}", type(start_date + days_to_add))
+        else:
+            start_date = None
+            print("Start date: ", start_date, ", type: ", type(start_date))        
+
+        # Finish date validation
+        finish_date = request.form.get("finish_date")
+        date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
+        if finish_date and date_pattern.match(finish_date):
+            finish_date = datetime.strptime(finish_date, "%Y-%m-%d").date()
+        else:
+            finish_date = None
+
+
+        # Debugging
+        print(f"User ID: {user_id}, type: {type(user_id)}")
+        print(f"Title: {title}, type: {type(title)}")
+        print(f"Opus: {opus}, type: {type(opus)}")
+        print(f"Number: {number_in_opus}, type: {type(number_in_opus)}")
+        print(f"Movement: {movement}, type: {type(movement)}")
+        print(f"Period ID: {period}, type: {type(period)}")
+        print(f"Composer ID: {composer}, type: {type(composer)}")
+        print(f"Instrument ID: {instrument}, type: {type(instrument)}")
+        print(f"Difficulty level: {difficulty_level}, type: {type(difficulty_level)}")
+        print(f"Is in repertoire: {add_to_repertoire}, type: {type(add_to_repertoire)}")
+        print(f"Start date: {start_date}, type: {type(start_date)}")
+        print(f"Finish date: {finish_date}, type: {finish_date}")
+
+
         return render_template("add_piece.html")
 
     return render_template("add_piece.html")
