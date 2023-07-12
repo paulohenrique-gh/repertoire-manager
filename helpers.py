@@ -1,5 +1,7 @@
 from flask import session, redirect
 import mysql.connector
+from pymysql import MySQLError
+from datetime import timedelta
 
 
 def is_logged_in():
@@ -91,3 +93,30 @@ def get_composer_id(composer, period_id):
             db_connection.close()
         
         return composer_id
+    
+
+def create_rep_rotation(start_date, title, user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    INTERVALS = [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 18, 22, 30, 38, 54, 70]
+    sql = """INSERT INTO calendar
+        (date_to_play, piece_id)
+        VALUES (
+            %s,
+            (SELECT id FROM pieces
+            WHERE title = %s AND user_id = %s)
+        );"""
+    
+    for interval in INTERVALS:
+        tdelta = timedelta(days=interval)
+        values = (start_date + tdelta, title, user_id)
+        try:
+            db.execute(sql, values)
+            db_connection.commit()
+        except MySQLError as ex:
+            db_connection.rollback()
+            print("ex")
+
+    if db_connection:
+        db_connection.close()
+

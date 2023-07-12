@@ -238,9 +238,52 @@ def add_piece():
         print(f"Difficulty level: {difficulty_level}, type: {type(difficulty_level)}")
         print(f"Is in repertoire: {add_to_repertoire}, type: {type(add_to_repertoire)}")
         print(f"Start date: {start_date}, type: {type(start_date)}")
-        print(f"Finish date: {finish_date}, type: {finish_date}")
+        print(f"Finish date: {finish_date}, type: {type(finish_date)}")
 
 
+        db_connection = db_connect()
+        db = db_connection.cursor()
+
+        sql = """INSERT INTO PIECES (
+            user_id,
+            title,
+            opus,
+            number_in_opus,
+            movement,
+            composer_id,
+            instrument_id,
+            difficulty_level,
+            is_in_repertoire,
+            start_date,
+            finish_date,
+            created_at,
+            updated_at) VALUES (
+            %s, %s, %s, %s, %s,
+            %s, %s, %s, %s, %s,
+            %s, now(), now())"""
+        
+        values = (user_id, title, opus,
+                  number_in_opus, movement,
+                  composer, instrument,
+                  difficulty_level,
+                  add_to_repertoire,
+                  start_date, finish_date,)
+        
+        try:
+            db.execute(sql, values)
+            db_connection.commit()
+        except:
+            db_connection.rollback()
+            flash("An error has ocurred")
+            return redirect("/add_piece")
+        finally:
+            if db_connection:
+                db_connection.close()
+
+        if add_to_repertoire:
+            create_rep_rotation(start_date, title, user_id)
+
+        flash("Piece saved successfully")
         return render_template("add_piece.html")
 
     return render_template("add_piece.html")
