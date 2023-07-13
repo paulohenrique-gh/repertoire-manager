@@ -6,6 +6,7 @@ from flask import Flask, flash, render_template, request, session, redirect
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import *
+from queries import *
 from flask_session import Session
 
 app = Flask(__name__)
@@ -17,15 +18,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-
-    """ db.execute("SELECT name FROM instruments WHERE id=%s", (1,))
-    rows = db.fetchall()
-    for row in rows:
-        print(row) """
-   
-    return render_template("index.html")
+    if not is_logged_in():
+        return redirect("/login")
+    
+    latest = get_latest_entries(session["user_id"], 5)
+    
+    return render_template("index.html", latest=latest)
 
 # Registration route
 @app.route("/signup", methods=["GET", "POST"])
@@ -90,7 +90,6 @@ def signup():
 def login():
 
     session.clear()
-
     
     if request.method == "POST":
          
@@ -98,11 +97,13 @@ def login():
         # Check for empty email
         if not email:
             flash("Email field cannot be empty")
+            return render_template("login.html")
 
         password = request.form.get("password")
         # Check if password is empty
         if not password:
             flash("Password field cannot be empty")
+            return render_template("login.html")
 
         # Open DB connection        
         db_connection = db_connect()
@@ -115,7 +116,8 @@ def login():
         db.execute(sql, (email,))        
         rows = db.fetchall()
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-            flash("Invalid username and/or password")      
+            flash("Invalid username and/or password")
+            return render_template("login.html")
 
         # Save user id in session
         session["user_id"] = rows[0]["id"]        
@@ -222,6 +224,9 @@ def add_piece():
         date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
         if finish_date and date_pattern.match(finish_date):
             finish_date = datetime.strptime(finish_date, "%Y-%m-%d").date()
+            if finish_date < start_date:
+                flash("Start date cannot be greater than finish date")
+                return redirect("/add_piece")
         else:
             finish_date = None
 
@@ -287,3 +292,28 @@ def add_piece():
         return render_template("add_piece.html")
 
     return render_template("add_piece.html")
+
+
+@app.route("/details/<id>", methods=["GET", "POST"])
+def details(id):
+
+    if not is_logged_in():
+        return redirect("/login")
+    
+    if request.method == "GET":
+        details = get_piece_details(session["user_id"], id)
+
+        # title <class 'str'>
+        # opus <class 'int'>
+        # number_in_opus <class 'int'>
+        # movement <class 'int'>
+        # composer <class 'str'>
+        # period <class 'str'>
+        # start_date <class 'datetime.date'>
+        # finish_date <class 'datetime.date'>
+        # is_in_repertoire <class 'int'>
+        return render_template("details.html", details=details)
+
+    
+    return render_template("details.html", id=id)
+
