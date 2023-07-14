@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block main %}
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <form action="/add_piece" method="post" class="border py-5 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form">
+                    
+                    <h1 class="mb-1 d-block px-5 fw-bolder text-start">{{ details["title"] }}</h1>
+                    <p class="mb-3 d-block px-5 text-start ">You can edit this entry by changing the values and saving</h2>
+                    <div class="mb-3 d-block text-start px-5">
+                        <label for="title" class="form-label form-labels">Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ details['title'] }}">
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between ">
+                            <div class="col-4">
+                                <label for="title" class="form-label form-labels">Opus</label>
+                                <input type="number" name="opus" class="form-control" value="{{ details['opus'] }}">
+                            </div>
+                            <div class="col-4">
+                                <label for="title" class="form-label form-labels">Number</label>
+                                <input type="number" name="number_in_opus" class="form-control" value="{{ details['number_in_opus'] }}">
+                            </div>
+                            <div class="col-4">
+                                <label for="title" class="form-label form-labels">Movement</label>
+                                <input type="number" name="movement" class="form-control" value="{{ details['movement'] }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Composer / Artist</label>
+                                <input type="text" name="composer" class="form-control" value="{{ details['composer'] }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Period</label>
+                                <input type="text" name="period" class="form-control" value="{{ details['period'] }}">
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Start date</label>
+                                <input type="date" name="start_date" class="form-control" value="{{ details['start_date'] }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Finish date</label>
+                                <input type="date" name="finish_date" class="form-control" value="{{ details['finish_date'] }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Instrument</label>
+                                <input type="text" name="instrument" class="form-control" value="{{ details['instrument'] }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="title" class="form-label form-labels">Difficulty Level</label>
+                                <input type="number" name="difficulty_level" class="form-control" value="{{ details['difficulty_level'] }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-block px-5">
+                        <div class="row d-flex justify-content-between align-items-center text-start m-auto">
+                            <div class="form-check form-switch col-9 w-auto">
+                                {% if details['is_in_repertoire'] %}
+                                    <input type="checkbox" name="add_to_repertoire" class="form-check-input" checked="checked">
+                                {% else %}
+                                    <input type="checkbox" name="add_to_repertoire" class="form-check-input">
+                                {% endif %}
+                               <label for="add_to_repertoire" class="form-check-label w-auto">Add to repertoire</label>
+                            </div>
+                            <div class="col-3 p-0 text-end">
+                                <button class="btn btn-primary fs-5 shadow-lg m-0 fw-bold">Save</button>
+                            </div>
+                        </div>
+                    </div>                   
+                    
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

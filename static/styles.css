@@ -72,3 +72,7 @@ body {
 .dark-gradient:hover {
    background-color: rgba(48, 43, 39, 0.9) !important;
 }
+
+.edit-link, .edit-link:hover {
+   color: inherit; 
+}

@@ -280,7 +280,7 @@ def add_piece():
         except:
             db_connection.rollback()
             flash("An error has ocurred")
-            return redirect("/add_piece")
+            return render_template("add_piece.html")
         finally:
             if db_connection:
                 db_connection.close()
@@ -294,8 +294,24 @@ def add_piece():
     return render_template("add_piece.html")
 
 
-@app.route("/details/<id>", methods=["GET", "POST"])
+@app.route("/details/<id>")
 def details(id):
+
+    if not is_logged_in():
+        return redirect("/login")
+    
+    details = get_piece_details(session["user_id"], id)
+    schedule = get_piece_schedule(id)
+
+    return render_template("details.html", 
+                            details=details,
+                            schedule=schedule,
+                            piece_id=id,
+                            today=datetime.now().date())
+
+
+@app.route("/edit/<id>", methods=["GET", "POST"])
+def edit(id):
 
     if not is_logged_in():
         return redirect("/login")
@@ -312,8 +328,8 @@ def details(id):
         # start_date <class 'datetime.date'>
         # finish_date <class 'datetime.date'>
         # is_in_repertoire <class 'int'>
-        return render_template("details.html", details=details)
+        return render_template("edit.html", details=details)
 
     
-    return render_template("details.html", id=id)
+    return render_template("edit.html", id=id)
 

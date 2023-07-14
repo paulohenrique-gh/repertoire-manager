@@ -6,83 +6,69 @@
 
 {% block main %}
     
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-                <form action="/add_piece" method="post" class="border py-5 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form">
-                    <h1 class="mb-3 d-block px-5 fw-bolder text-start">Piece title</h1>
-                    <div class="mb-3 d-block text-start px-5">
-                        <label for="title" class="form-label form-labels">Title</label>
-                        <input type="text" name="title" class="form-control" placeholder="Moonlight Sonata" required>
-                    </div>
-                    <div class="mb-3 d-block text-start px-5">
-                        <div class="row justify-content-between ">
-                            <div class="col-4">
-                                <label for="title" class="form-label form-labels">Opus</label>
-                                <input type="number" name="opus" class="form-control" placeholder="27">
-                            </div>
-                            <div class="col-4">
-                                <label for="title" class="form-label form-labels">Number</label>
-                                <input type="number" name="number_in_opus" class="form-control" placeholder="2">
-                            </div>
-                            <div class="col-4">
-                                <label for="title" class="form-label form-labels">Movement</label>
-                                <input type="number" name="movement" class="form-control" placeholder="3">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 d-block text-start px-5">
-                        <div class="row justify-content-between">
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Composer / Artist</label>
-                                <input type="text" name="composer" class="form-control" placeholder="Ludwig Van Beethoven" required>
-                            </div>
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Period</label>
-                                <input type="text" name="period" class="form-control" placeholder="Classic" required>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="mb-3 d-block text-start px-5">
-                        <div class="row justify-content-between">
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Start date</label>
-                                <input type="date" name="start_date" class="form-control">
-                            </div>
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Finish date</label>
-                                <input type="date" name="finish_date" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 d-block text-start px-5">
-                        <div class="row justify-content-between">
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Instrument</label>
-                                <input type="text" name="instrument" class="form-control" placeholder="Piano">
-                            </div>
-                            <div class="col-6">
-                                <label for="title" class="form-label form-labels">Difficulty Level</label>
-                                <input type="number" name="difficulty_level" class="form-control" placeholder="10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 d-block px-5">
-                        <div class="row d-flex justify-content-between align-items-center text-start m-auto">
-                            <div class="form-check form-switch col-9 w-auto">
-                                <input type="checkbox" name="add_to_repertoire" class="form-check-input">
-                                <label for="add_to_repertoire" class="form-check-label w-auto">Add to repertoire</label>
-                            </div>
-                            <div class="col-3 p-0 text-end">
-                                <button class="btn btn-primary fs-5 shadow-lg m-0 fw-bold">Save</button>
-                            </div>
-                        </div>
-                    </div>                   
-                    
-                </form>
-
+    <div class="container border py-5 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form"">
+        <div class="row text-start px-5">
+            <div class="d-block mb-3">
+                <h1 class="fw-bolder">{{ details['title'] }}</h1>
+                {% if details['opus'] %}
+                    <h2 class="fw-bolder">Opus <span class="fw-lighter">{{ details['opus'] }}</span></h2>
+                {% endif %}
+            
+                {% if details['number_in_opus'] %}
+                    <h2 class="fw-bolder">Number <span class="fw-lighter">{{ details['number_in_opus'] }}</span></h2>
+                {% endif %}
+            
+                {% if details['movement'] %}
+                    <h2 class="fw-bolder">Movement <span class="fw-lighter">{{ details['movement'] }}</span></h2>
+                {% endif %}
+            
+                <h2 class="fw-bolder">Composer / Artist: <span class="fw-lighter d-block d-md-inline-flex">{{ details['composer'] }}</span></h2>
             </div>
+            
+            <hr>
+
+            <div class="d-block mb-3">
+                {% if details['period'] %}
+                    <h3 class="fw-bolder">Period: <span class="fw-lighter">{{ details['period'] }}</span></h3>
+                {% endif %}
+                
+                {% if details['start_date'] %}
+                    <h3 class="fw-bolder">Start date: <span class="fw-lighter">{{ details['start_date'].strftime('%m.%d.%Y') }}</span></h3>
+                {% endif %}
+            
+                {% if details['finish_date'] %}
+                    <h3 class="fw-bolder">Finish date: <span class="fw-lighter">{{ details['finish_date'].strftime('%m.%d.%Y') }}</span></h3>
+                    <h3 class="fw-bolder">Finished in <span class="fw-lighter">{{ (details['finish_date'] - details['start_date']).days }} days</span></h3>
+                {% else %}
+                    <h3 class="fw-bolder">Not finished yet. <a class="edit-link" href="/edit/{{ piece_id }}">Edit</a> to select a finish date</h3>
+                {% endif %}
+            
+                {% if details['instrument'] %}
+                    <h3 class="fw-bolder">Instrument: <span class="fw-lighter">{{ details['instrument'] }}</span></h3>
+                {% endif %}
+            
+                {% if details['difficulty_level'] %}
+                    <h3 class="fw-bolder">Difficulty level: <span class="fw-lighter">{{ details['difficulty_level'] }}</span></h3>
+                {% endif %}
+            </div>
+            
+            <hr>
+
+            <div class="d-block mb-3">
+                {% if details['is_in_repertoire'] %}
+                <h3 class="fw-bolder">When to play it next:</h3>  
+                    <ul>
+                        {% for day in schedule %}
+                            {% if day['date_to_play'] >= today %}
+                                <li class="list-group-item">{{ day['date_to_play'].strftime('%m.%d.%Y') }}
+                            {% endif %}                            
+                        {% endfor %}
+                        <!-- TODO Link for resetting schedule -->
+                    </ul>
+                 {% endif %}
+            </div>       
+
+            <a class="edit-link" href="/edit/{{ piece_id }}">Edit</a>
         </div>
     </div>
 
