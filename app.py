@@ -190,7 +190,8 @@ def add_piece():
         # Instrument validation
         instrument = request.form.get("instrument").lower()
         if not instrument:
-            instrument = None
+            flash("A required field was left empty.")
+            return redirect("/add_piece")
         else: 
             instrument = get_instrument_id(instrument)        
 
@@ -320,7 +321,11 @@ def edit(id):
     if not get_piece_details(session["user_id"], id):
         return redirect("/")
     
+    details = get_piece_details(session["user_id"], id) 
+
     if request.method == "POST":
+
+        details = get_piece_details(session["user_id"], id) 
 
         title = request.form.get("title").lower()
 
@@ -387,19 +392,14 @@ def edit(id):
         else:
             finish_date = None
 
-        # FIXME
         add_to_repertoire = request.form.get("add_to_repertoire")
         if add_to_repertoire:
             add_to_repertoire = True
-            if not is_in_calendar(id):
+            if not is_in_calendar(id) and finish_date:
                 create_rep_rotation(finish_date, title, session["user_id"])
-            elif finish_date != get_finished_date(id):
-                remove_from_calendar(id)
-                create_rep_rotation(finish_date, title, session["user_id"])
-
         else:
             add_to_repertoire = False
-            remove_from_calendar(id)  
+            remove_from_calendar(id)
 
         update_piece(id, title, opus, number_in_opus,
                      movement, composer, instrument,
@@ -409,7 +409,7 @@ def edit(id):
         flash("Piece details were updated")
         return redirect("/")
 
-    details = get_piece_details(session["user_id"], id)   
+      
     print("ID: ", id)
 
     return render_template("edit.html", details=details, piece_id=id)

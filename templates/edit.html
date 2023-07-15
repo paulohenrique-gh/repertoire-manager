@@ -14,7 +14,7 @@
                     <h2 class="mb-3 d-block px-5 fw-bolder text-start pt-3">{{ details["title"] }}</h2>
                     <div class="mb-3 d-block text-start px-5">
                         <label for="title" class="form-label form-labels">Title</label>
-                        <input type="text" name="title" class="form-control" value="{{ details['title'] }}">
+                        <input type="text" name="title" class="form-control" value="{{ details['title'] }}" required>
                     </div>
                     <div class="mb-3 d-block text-start px-5">
                         <div class="row justify-content-between ">
@@ -36,11 +36,11 @@
                         <div class="row justify-content-between">
                             <div class="col-6">
                                 <label for="title" class="form-label form-labels">Composer / Artist</label>
-                                <input type="text" name="composer" class="form-control" value="{{ details['composer'] }}">
+                                <input type="text" name="composer" class="form-control" value="{{ details['composer'] }}" required>
                             </div>
                             <div class="col-6">
                                 <label for="title" class="form-label form-labels">Period</label>
-                                <input type="text" name="period" class="form-control" value="{{ details['period'] }}">
+                                <input type="text" name="period" class="form-control" value="{{ details['period'] }}" required>
                             </div>
                         </div>                        
                     </div>
@@ -60,7 +60,7 @@
                         <div class="row justify-content-between">
                             <div class="col-6">
                                 <label for="title" class="form-label form-labels">Instrument</label>
-                                <input type="text" name="instrument" class="form-control" value="{{ details['instrument'] }}">
+                                <input type="text" name="instrument" class="form-control" value="{{ details['instrument'] }}" required>
                             </div>
                             <div class="col-6">
                                 <label for="title" class="form-label form-labels">Difficulty Level</label>

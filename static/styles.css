@@ -94,7 +94,7 @@ h3, li {
    font-size: 20px;
 }
 
-.edit-footer-link {
+.edit-footer-link, .edit-footer-link:hover {
    font-size: 20px;
    color: inherit;
    text-decoration: none;

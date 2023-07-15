@@ -1,3 +1,4 @@
+from pymysql import MySQLError
 from helpers import db_connect
 from flask import session
 
@@ -130,8 +131,9 @@ def update_piece(piece_id, title, opus,
     try:
         db.execute(sql, values)
         db_connection.commit()
-    except:
+    except MySQLError as ex:
         db_connection.rollback()
+        print("ex")
     finally:
         if db_connection:
             db_connection.close()
