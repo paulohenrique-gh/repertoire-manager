@@ -1,2 +1,4 @@
 arrays.py
 select_query_test.sql
+flask_session/
+__pycache__/
