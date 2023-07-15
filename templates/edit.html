@@ -9,10 +9,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8 col-sm-10">
-                <form action="/add_piece" method="post" class="border py-5 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form">
-                    
-                    <h1 class="mb-1 d-block px-5 fw-bolder text-start">{{ details["title"] }}</h1>
-                    <p class="mb-3 d-block px-5 text-start ">You can edit this entry by changing the values and saving</h2>
+                <form action="/edit/{{ piece_id }}" method="post" class="border py-5 pt-0 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form">
+                    <h1 class="mb-3 d-block px-5 fw-bolder text-center form-header py-2">Edit details</h1>
+                    <h2 class="mb-3 d-block px-5 fw-bolder text-start pt-3">{{ details["title"] }}</h2>
                     <div class="mb-3 d-block text-start px-5">
                         <label for="title" class="form-label form-labels">Title</label>
                         <input type="text" name="title" class="form-control" value="{{ details['title'] }}">

@@ -36,7 +36,7 @@ Manage musical repertoire by adding pieces to a database
 - [x] Login route
 - [x] Form for adding pieces
 - [x] Page with index of all registered pieces
-- [ ] View details from index
+- [x] View details from index
 - [ ] Page for editting an entry, allowing removal from collection
 - [ ] Table with dates and pieces to play on each day
 

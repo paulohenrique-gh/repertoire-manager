@@ -56,6 +56,8 @@ def get_piece_details(user_id, piece_id):
     if db_connection:
         db_connection.close()
 
+    if not details:
+        return
     
     for detail in details[0]:
         if isinstance(details[0][detail], str):
@@ -71,24 +73,6 @@ def get_piece_schedule(piece_id):
         WHERE piece_id = %s;"""
     values = (piece_id,)
 
-    # {'date_to_play': datetime.date(2023, 7, 27), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 7, 28), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 7, 29), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 7, 30), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 7, 31), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 1), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 2), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 4), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 6), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 8), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 10), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 14), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 18), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 8, 26), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 9, 3), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 9, 19), 'piece_id': 5}
-    # {'date_to_play': datetime.date(2023, 10, 5), 'piece_id': 5}
-
     db.execute(sql, values)
     schedule = db.fetchall()
 
@@ -96,5 +80,106 @@ def get_piece_schedule(piece_id):
         db_connection.close()
 
     return schedule
+
+
+def remove_piece(piece_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """DELETE FROM pieces
+        WHERE id =  %s;"""
+    values = (piece_id,)
+
+    try:
+        db.execute(sql, values)
+        db_connection.commit()
+    except:
+        db_connection.rollback()
+    finally:
+        if db_connection:
+            db_connection.close()
+
+
+def update_piece(piece_id, title, opus,
+                number_in_opus, movement,
+                composer, instrument,
+                difficulty_level,
+                add_to_repertoire,
+                start_date, finish_date):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """UPDATE pieces
+        SET
+            title = %s,
+            opus = %s,
+            number_in_opus = %s,
+            movement = %s,
+            composer_id = %s,
+            instrument_id = %s,
+            difficulty_level = %s,
+            is_in_repertoire = %s,
+            start_date = %s,
+            finish_date = %s,
+            updated_at = CURRENT_TIMESTAMP()
+        WHERE id = %s;
+            """
+    values = (title, opus, number_in_opus,
+              movement, composer, instrument,
+              difficulty_level, add_to_repertoire,
+              start_date, finish_date, piece_id)    
+
+    try:
+        db.execute(sql, values)
+        db_connection.commit()
+    except:
+        db_connection.rollback()
+    finally:
+        if db_connection:
+            db_connection.close()
+
+
+def get_finished_date(piece_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """SELECT finish_date
+        FROM pieces
+        WHERE id = %s;"""
+    
+    db.execute(sql, (piece_id,))
+    finish_date = db.fetchall()[0]['finish_date']
+
+    return finish_date
+
+
+def remove_from_calendar(piece_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """DELETE FROM calendar
+        WHERE piece_id = %s;"""
+    
+    try:
+        db.execute(sql, (piece_id,))
+        db_connection.commit()
+    except:
+        db_connection.rollback()
+    finally:
+        if db_connection:
+            db_connection.close()
+
+
+def is_in_calendar(piece_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """SELECT * FROM calendar
+        WHERE piece_id = %s;"""
+    
+    db.execute(sql, (piece_id,))
+
+    if db.fetchall():
+        return True
+    
+    return False
+
+
+
 
 
