@@ -23,6 +23,24 @@ def get_latest_entries(user_id, limit):
     return rows
 
 
+def get_all_entries(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """SELECT pieces.id, title, composers.name
+        FROM pieces
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        WHERE pieces.user_id = %s
+        ORDER BY created_at DESC"""    
+
+    db.execute(sql, (user_id,))
+    rows = db.fetchall()
+
+    if db_connection:
+        db_connection.close()
+
+    return rows
+
 def get_piece_details(user_id, piece_id):
     db_connection = db_connect()
     db = db_connection.cursor(dictionary=True, buffered=True)
@@ -181,7 +199,26 @@ def is_in_calendar(piece_id):
     
     return False
 
+def get_repertoire(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT 
+            pieces.id AS piece_id,
+            pieces.title AS title,
+            MAX(composers.name) AS composer,
+            MIN(calendar.date_to_play) AS date_to_play
+        FROM pieces
+        JOIN users
+            ON users.id = pieces.user_id
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        JOIN calendar
+            ON calendar.piece_id = pieces.id
+        WHERE users.id = %s
+        GROUP BY pieces.id;"""
+    
+    db.execute(sql, (user_id,))
+    repertoire = db.fetchall()
 
-
-
-
+    return repertoire

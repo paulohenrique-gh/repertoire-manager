@@ -18,7 +18,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     if not is_logged_in():
         return redirect("/login")
@@ -26,6 +26,16 @@ def index():
     latest = get_latest_entries(session["user_id"], 5)
     
     return render_template("index.html", latest=latest)
+
+@app.route("/view_all")
+def view_all():
+    if not is_logged_in():
+        return redirect("/login")
+    
+    all_entries = get_all_entries(session["user_id"])
+
+    return render_template("index_all.html", entries=all_entries)
+
 
 # Registration route
 @app.route("/signup", methods=["GET", "POST"])
@@ -371,8 +381,7 @@ def edit(id):
         if difficulty_level.isdigit():
             difficulty_level = int(difficulty_level)
         else:
-            difficulty_level = None
-                 
+            difficulty_level = None                 
 
         start_date = request.form.get("start_date")
         date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
@@ -409,9 +418,6 @@ def edit(id):
         flash("Piece details were updated")
         return redirect("/")
 
-      
-    print("ID: ", id)
-
     return render_template("edit.html", details=details, piece_id=id)
 
 
@@ -427,3 +433,19 @@ def remove(id):
     remove_piece(id)
     flash("Piece removed from collection successfully")
     return redirect("/")
+
+
+@app.route("/repertoire")
+def repertoire():
+
+    if not is_logged_in():
+        return redirect("/login")
+    
+    repertoire = get_repertoire(session["user_id"])
+    
+    return render_template("repertoire.html", repertoire=repertoire)
+
+@app.route("/reset/<id>", methods=["POST"])
+def reset(id):
+
+    return id

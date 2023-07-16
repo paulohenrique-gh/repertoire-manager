@@ -94,8 +94,13 @@ h3, li {
    font-size: 20px;
 }
 
-.edit-footer-link, .edit-footer-link:hover {
+.footer-link, .footer-link:hover {
    font-size: 20px;
    color: inherit;
    text-decoration: none;
+}
+
+.btn-reset, .btn-reset:hover {
+   background-color: #f5f3f5;
+   color: #302b27da;
 }

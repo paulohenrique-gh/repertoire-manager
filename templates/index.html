@@ -9,11 +9,18 @@
         <h1 class="mb-3 d-block px-5 fw-bolder">Latest entries</h1>
         <div class="container mt-5">
             {% if not latest %}
-                <div class="my-2 rounded-1 dark-gradient">
+                <!-- <div class="my-2 rounded-1 dark-gradient">
                     No pieces have been added yet. Click <a href="/add_piece">here</a> to add one.
-                </div>
+                </div> -->
+
+                <a href="/add_piece" class="entry-link">                    
+                    <div class="row my-2 rounded-1 dark-gradient justify-content-center">
+                        <div class="col-6 py-2 text-center">
+                            No pieces have been added yet. Click here to add one.
+                        </div>
+                    </div>
+                </a>
             {% else %}
-            {% endif %}
             {% for piece in latest %}
                 <a href="/details/{{ piece['id'] }}" class="entry-link">                    
                     <div class="row my-2 rounded-1 dark-gradient justify-content-center">
@@ -25,7 +32,14 @@
                         </div>
                     </div>
                 </a>
-            {% endfor %}            
+                {% endfor %}
+                <div class="row">
+                    <a href="/view_all" class="footer-link pt-3">View all entries</a>
+                </div>  
+            {% endif %}
+            
+                     
+
         </div>
     </div>
 {% endblock %} 
