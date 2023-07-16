@@ -406,6 +406,8 @@ def edit(id):
             add_to_repertoire = True
             if not is_in_calendar(id) and finish_date:
                 create_rep_rotation(finish_date, title, session["user_id"])
+            if not finish_date == get_finished_date(id):
+                reset_roteation(finish_date, id)
         else:
             add_to_repertoire = False
             remove_from_calendar(id)
@@ -443,9 +445,75 @@ def repertoire():
     
     repertoire = get_repertoire(session["user_id"])
     
-    return render_template("repertoire.html", repertoire=repertoire)
+    return render_template("repertoire.html",
+                           repertoire=repertoire,
+                           today=datetime.now().date())
 
-@app.route("/reset/<id>", methods=["POST"])
-def reset(id):
+@app.route("/reset", methods=["POST"])
+def reset():
 
-    return id
+    if not is_logged_in():
+        return redirect("/login")
+    
+    id = request.form.get("id")
+        
+    remove_from_calendar(id)
+    reset_roteation(datetime.now().date(), id)
+
+    flash("Rotation reset")
+    return redirect("/repertoire")
+
+@app.route("/calendar", methods=["GET", "POST"])
+def calendar():
+
+    if not is_logged_in():
+        return redirect("/login")
+
+    search_results = []
+
+    if request.method == "POST":
+
+        start = request.form.get("start")
+        date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
+        if start and date_pattern.match(start):
+            start = datetime.strptime(start, "%Y-%m-%d").date()
+        else:
+            flash("Invalid date format")
+            return redirect("/calendar")
+        
+        end = request.form.get("end")   
+        date_pattern = re.compile("^(\d{4})-(\d{2})-(\d{2})$")
+        if end and date_pattern.match(end):
+            end = datetime.strptime(end, "%Y-%m-%d").date()
+            if end < start:
+                flash("Start date cannot be greater than end date")
+                return redirect("/calendar")
+        else:
+            flash("Invalid date format")
+            return redirect("/calendar")
+        
+        search_results = search_calendar(start, end, session["user_id"])
+
+        unique_dates = []
+        formatted_list = []
+        for result in search_results:
+            print(result)
+            if result['date_to_play'] not in unique_dates:
+                unique_dates.append(result['date_to_play'])            
+
+        for date in unique_dates:
+            pieces = []
+            for result in search_results:
+                if result['date_to_play'] == date:
+                    pieces.append({
+                        'title': result['title'],
+                        'composer': result['composer']
+                    })
+        
+            formatted_list.append({'date_to_play': date, 'pieces': pieces})
+
+        for date in formatted_list:
+            print(date)
+
+        
+    return render_template("calendar.html", results=search_results)

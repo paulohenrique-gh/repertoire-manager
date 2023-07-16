@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pymysql import MySQLError
 from helpers import db_connect
 from flask import session
@@ -216,9 +217,61 @@ def get_repertoire(user_id):
         JOIN calendar
             ON calendar.piece_id = pieces.id
         WHERE users.id = %s
-        GROUP BY pieces.id;"""
+        GROUP BY pieces.id
+        ORDER BY date_to_play;"""
     
     db.execute(sql, (user_id,))
     repertoire = db.fetchall()
 
     return repertoire
+
+
+def reset_roteation(start_date, piece_id):
+    remove_from_calendar(piece_id)
+
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    INTERVALS = [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 18, 22, 30, 38, 54, 70]
+    sql = """INSERT INTO calendar
+        (date_to_play, piece_id)
+        VALUES (
+            %s,
+            %s);"""
+    
+    for interval in INTERVALS:
+        tdelta = timedelta(days=interval)
+        values = (start_date + tdelta, piece_id)
+        try:
+            db.execute(sql, values)
+            db_connection.commit()
+        except MySQLError as ex:
+            db_connection.rollback()
+            print("ex")
+
+    if db_connection:
+        db_connection.close()
+
+
+def search_calendar(start, end, user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT
+            date_to_play,
+            pieces.title AS title,
+            composers.name AS composer
+        FROM calendar
+        JOIN pieces
+            ON pieces.id = calendar.piece_id
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        WHERE
+            (date_to_play BETWEEN %s AND %s)
+            AND pieces.user_id = %s
+        ORDER BY date_to_play;"""
+    values = (start, end, user_id,)
+
+    db.execute(sql, values)
+    results = db.fetchall()
+
+    return results

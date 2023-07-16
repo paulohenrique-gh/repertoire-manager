@@ -28,13 +28,17 @@
                                 {{ piece["composer"].title() }}
                             </div>
                             <div class="col-md-4 py-2 text-center d-flex justify-content-center">
-                                <div class="row align-items-center">
+                                <div class="row align-items-center d-flex">
                                     <div class="col-6 text-nowrap text-start">
-                                       Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
+                                        {% if piece["date_to_play"] >= today %}
+                                            Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
+                                        {% else %}
+                                            Rotation finished
+                                        {% endif %}
                                     </div>
-                                    <div class="col-6 ps-5">
-                                        <form action="/reset/{{ piece['piece_id'] }}" method="post">
-                                            <input type="hidden" value="{{ piece['piece_id'] }}">
+                                    <div class="col-6 ps-5 align-items-center">
+                                        <form action="/reset" method="post">
+                                            <input type="hidden" name="id" value="{{ piece['piece_id'] }}">
                                             <button type="submit" class="form-control btn btn-reset p-0">Reset</button>
                                         </form>
                                     </div>
@@ -42,19 +46,6 @@
                                 </div>
                                 
                             </div>
-                            <!-- <div class="col-md-4 py-2 text-md-start justify-content-center">
-                                <div class="row align-items-center justify-content-around">
-                                    <div class="col-md-4 text-md-start">
-                                        {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
-                                    </div>
-                                    <div class="col-sm-3 text-md-end">
-                                        <form action="/reset" method="post" class="p-0">
-                                            <input type="hidden" value="{{ piece['piece_id'] }}">
-                                            <button type="submit" class="form-control btn btn-reset text-center p-0">Reset</button>
-                                        </form>
-                                    </div>
-                                </div>                                
-                            </div> -->
                         </div>
                     </a>
                 {% endfor %}
