@@ -1,6 +1,6 @@
 from datetime import timedelta
 from pymysql import MySQLError
-from helpers import db_connect
+from helpers import *
 from flask import session
 
 def get_latest_entries(user_id, limit):
@@ -251,7 +251,7 @@ def reset_roteation(start_date, piece_id):
     if db_connection:
         db_connection.close()
 
-
+# returns a a list of dictionaries with dates as keys and pieces as values
 def search_calendar(start, end, user_id):
     db_connection = db_connect()
     db = db_connection.cursor(dictionary=True, buffered=True)
@@ -259,7 +259,8 @@ def search_calendar(start, end, user_id):
         SELECT
             date_to_play,
             pieces.title AS title,
-            composers.name AS composer
+            composers.name AS composer,
+            calendar.piece_id AS piece_id
         FROM calendar
         JOIN pieces
             ON pieces.id = calendar.piece_id
@@ -272,6 +273,7 @@ def search_calendar(start, end, user_id):
     values = (start, end, user_id,)
 
     db.execute(sql, values)
-    results = db.fetchall()
+    search_results = db.fetchall()
+    search_results = format_calendar(search_results)
 
-    return results
+    return search_results

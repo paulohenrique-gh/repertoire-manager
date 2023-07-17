@@ -494,26 +494,10 @@ def calendar():
         
         search_results = search_calendar(start, end, session["user_id"])
 
-        unique_dates = []
-        formatted_list = []
-        for result in search_results:
-            print(result)
-            if result['date_to_play'] not in unique_dates:
-                unique_dates.append(result['date_to_play'])            
-
-        for date in unique_dates:
-            pieces = []
-            for result in search_results:
-                if result['date_to_play'] == date:
-                    pieces.append({
-                        'title': result['title'],
-                        'composer': result['composer']
-                    })
-        
-            formatted_list.append({'date_to_play': date, 'pieces': pieces})
-
-        for date in formatted_list:
+        for date in search_results:
             print(date)
 
+        return render_template("calendar_search.html", results=search_results)
+
         
-    return render_template("calendar.html", results=search_results)
+    return render_template("calendar.html")

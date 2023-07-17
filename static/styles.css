@@ -105,3 +105,6 @@ h3, li {
    color: #302b27da;
 }
 
+.search-list-item {
+   list-style-type: none;
+}

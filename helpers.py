@@ -120,3 +120,25 @@ def create_rep_rotation(start_date, title, user_id):
     if db_connection:
         db_connection.close()
 
+# Receives the raw result of the calendar query which contains a row for each piece
+# and returns it formatted as dictionary with unique dates as keys
+# and the values are the pieces to play that day
+def format_calendar(calendar):
+    unique_dates = []
+    formatted_list = []
+    for result in calendar:
+        if result['date_to_play'] not in unique_dates:
+            unique_dates.append(result['date_to_play'])            
+
+    for date in unique_dates:
+        pieces = []
+        for result in calendar:
+            if result['date_to_play'] == date:
+                pieces.append({
+                    'title': result['title'],
+                    'composer': result['composer'],
+                    'piece_id': result['piece_id']
+                })    
+        formatted_list.append({'date_to_play': date, 'pieces': pieces})
+
+    return formatted_list

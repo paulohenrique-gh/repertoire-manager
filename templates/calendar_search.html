@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Calendar
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10">
+                <form action="/calendar" method="post" class="border py-5 pt-0 pb-3 px-sm-0 m-auto w-auto text-center border-0 rounded-4" id="reg-form">
+                    <h1 class="mb-3 d-block px-5 fw-bolder text-center form-header py-2">Search in calendar</h1>
+                    <h2 class="mb-3 d-block px-5 text-center pt-3">Select a range of dates</h2>
+                    <div class="mb-3 d-block text-start px-5">
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-4 mt-1">
+                                <label for="title" class="form-label form-labels">From</label>
+                                <input type="date" name="start" class="form-control" required>
+                            </div>
+                            <div class="col-md-4 mt-1">
+                                <label for="title" class="form-label form-labels">To</label>
+                                <input type="date" name="end" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-4 mb-1">
+                            <div class="col-2 d-flex justify-content-center">
+                                <button class="btn btn-primary fs-5 shadow-lg m-0 fw-bold">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% if results %}
+                        {% for date in results %}
+                            <div class="px-5 py-5">
+                                <h2 class="text-start fw-bolder">{{ date['date_to_play'].strftime('%m.%d.%Y') }}</h2>
+                                    <div class="row align-items-center">
+                                        <div class="col-6 text-end">
+                                            <h3 class="fw-bolder">Title</h3>
+                                        </div>
+                                        <div class="col-6 text-start">
+                                            <h3 class="fw-bolder">Composer</h3>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% for piece in date['pieces'] %}
+                                    <div class="row align-items-center">
+                                        <div class="col-6 text-end pb-2">
+                                            <a href="/details/{{ piece['piece_id'] }}" class="entry-link">{{ piece['title'].title() }}</a>
+                                        </div>
+                                        <div class="col-6 text-start pb-2">
+                                            {{ piece['composer'].title() }}
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h3 class="mb-3 d-block px-5 text-center pt-3">No results for the selected range</h3>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %} 
