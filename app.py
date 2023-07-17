@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta, date
 import re
+from datetime import date, datetime, timedelta
 
 import mysql.connector
-from flask import Flask, flash, render_template, request, session, redirect, url_for
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from flask_session import Session
 from helpers import *
 from queries import *
-from flask_session import Session
 
 app = Flask(__name__)
 
@@ -17,7 +18,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 Session(app)
 
-
 @app.route("/")
 def index():
     if not is_logged_in():
@@ -26,6 +26,7 @@ def index():
     latest = get_latest_entries(session["user_id"], 5)
     
     return render_template("index.html", latest=latest)
+
 
 @app.route("/view_all")
 def view_all():
@@ -73,7 +74,14 @@ def signup():
             flash("Username already exists")
             return render_template("signup.html")
         
-
+        # Check existence of email in DB    
+        sql = """SELECT * FROM users
+            WHERE email = %s"""
+        db.execute(sql, (email,))
+        rows = db.fetchall()
+        if len(rows) >= 1:
+            flash("Email already registered")
+            return render_template("signup.html")
         
         # Insert into database if everything is valid
         sql = """INSERT INTO users
@@ -140,7 +148,6 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-
     return redirect("/login")
 
 
@@ -238,21 +245,6 @@ def add_piece():
                 return redirect("/add_piece")
         else:
             finish_date = None
-
-
-        # Debugging
-        print(f"User ID: {user_id}, type: {type(user_id)}")
-        print(f"Title: {title}, type: {type(title)}")
-        print(f"Opus: {opus}, type: {type(opus)}")
-        print(f"Number: {number_in_opus}, type: {type(number_in_opus)}")
-        print(f"Movement: {movement}, type: {type(movement)}")
-        print(f"Period ID: {period}, type: {type(period)}")
-        print(f"Composer ID: {composer}, type: {type(composer)}")
-        print(f"Instrument ID: {instrument}, type: {type(instrument)}")
-        print(f"Difficulty level: {difficulty_level}, type: {type(difficulty_level)}")
-        print(f"Is in repertoire: {add_to_repertoire}, type: {type(add_to_repertoire)}")
-        print(f"Start date: {start_date}, type: {type(start_date)}")
-        print(f"Finish date: {finish_date}, type: {type(finish_date)}")
 
 
         db_connection = db_connect()
@@ -406,7 +398,11 @@ def edit(id):
             add_to_repertoire = True
             if not is_in_calendar(id) and finish_date:
                 create_rep_rotation(finish_date, title, session["user_id"])
-            if not finish_date == get_finished_date(id):
+            
+            if not finish_date:
+                remove_from_calendar(id)
+
+            if is_in_calendar(id) and not finish_date == get_finished_date(id):
                 reset_roteation(finish_date, id)
         else:
             add_to_repertoire = False
@@ -449,6 +445,7 @@ def repertoire():
                            repertoire=repertoire,
                            today=datetime.now().date())
 
+
 @app.route("/reset", methods=["POST"])
 def reset():
 
@@ -462,6 +459,7 @@ def reset():
 
     flash("Rotation reset")
     return redirect("/repertoire")
+
 
 @app.route("/calendar", methods=["GET", "POST"])
 def calendar():
