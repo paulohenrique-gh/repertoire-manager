@@ -31,6 +31,8 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 - **requirements.txt**: modules required to run the application
 - **create_db_tables.sql**: SQL queries for creating the database and tables in MySQL
 - **app.py**: the main file in Python. Contains logic for the backend of the application, such as validating forms, doing operations with data from database queries, etc.
+- **queries.py**: functions for database queries
+- **helpers.py**: additional helping functions
 - **static/**: folder for static favicon and stylesheets files:
     - **favicon.png**: simple favicon for the app
     - **styles.css**: additional styles. The main styling comes from bootstrap classes
