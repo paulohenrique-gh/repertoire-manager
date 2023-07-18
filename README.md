@@ -63,29 +63,18 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 
 ## Todo
 
-[ ] Fix bug that doesn't show next date in repertoire page
-
-[ ] Add to details page that redirects to Google or YouTube search of that piece  
-
-[ ] Fix string capitalization on index page
-
-[ ] Add page for searching with parameters (author, title, date, etc.)
-
-[ ] Add sorting to index and repertoire
-
-[ ] Password change
-
-[ ] A better way to render the list of dates in the details page
-
-[ ] Add button to reset the rotation in the details page
-
-[ ] Improvements to the UI
-
-[ ] Cloud database
-
-[ ] Deploy the application
-
-[ ] Review code to make it more efficient
+- [ ] Fix bug that doesn't show next date in repertoire page
+- [ ] Add to details page that redirects to Google or YouTube search of that piece  
+- [ ] Fix string capitalization on index page
+- [ ] Add page for searching with parameters (author, title, date, etc.)
+- [ ] Add sorting to index and repertoire
+- [ ] Password change
+- [ ] A better way to render the list of dates in the details page
+- [ ] Add button to reset the rotation in the details page
+- [ ] Improvements to the UI
+- [ ] Cloud database
+- [ ] Deploy the application
+- [ ] Review code to make it more efficient
 
 
 
