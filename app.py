@@ -432,7 +432,8 @@ def remove(id):
     flash("Piece removed from collection successfully")
     return redirect("/")
 
-
+# FIXME - return last date do play in current rotation
+# of each piece and pass it to the template
 @app.route("/repertoire")
 def repertoire():
 
@@ -440,6 +441,8 @@ def repertoire():
         return redirect("/login")
     
     repertoire = get_repertoire(session["user_id"])
+    for piece in repertoire:
+        print(piece)
     
     return render_template("repertoire.html",
                            repertoire=repertoire,

@@ -1,4 +1,5 @@
 from datetime import timedelta
+import string
 from pymysql import MySQLError
 from helpers import *
 
@@ -94,9 +95,9 @@ def create_rep_rotation(start_date, title, user_id):
         try:
             db.execute(sql, values)
             db_connection.commit()
-        except MySQLError as ex:
+        except:
             db_connection.rollback()
-            print("ex")
+            
 
     if db_connection:
         db_connection.close()
@@ -179,7 +180,7 @@ def get_piece_details(user_id, piece_id):
     
     for detail in details[0]:
         if isinstance(details[0][detail], str):
-            details[0][detail] = details[0][detail].title()
+            details[0][detail] = string.capwords(details[0][detail])
 
     return details[0]
 
@@ -248,9 +249,8 @@ def update_piece(piece_id, title, opus,
     try:
         db.execute(sql, values)
         db_connection.commit()
-    except MySQLError as ex:
+    except:
         db_connection.rollback()
-        print("ex")
     finally:
         if db_connection:
             db_connection.close()

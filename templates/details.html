@@ -48,7 +48,9 @@
                     <h3 class="fw-bolder">Finish date: <span class="fw-lighter">{{ details['finish_date'].strftime('%m.%d.%Y') }}</span></h3>
                     <h3 class="fw-bolder">Finished in <span class="fw-lighter">{{ (details['finish_date'] - details['start_date']).days }} days</span></h3>
                 {% else %}
-                    <h3 class="fw-bolder">Started <span class="fw-lighter">{{ (today - details['start_date']).days }} days ago</span></h3>
+                    {% if details['start_date'] %}
+                        <h3 class="fw-bolder">Started <span class="fw-lighter">{{ (today - details['start_date']).days }} days ago</span></h3>
+                    {% endif %}
                     <h3 class="fw-bolder">Not finished yet. <span class="fw-lighter"><a class="edit-link" href="/edit/{{ piece_id }}">Edit</a>
                         to select a finish date</span></h3>
                 {% endif %}
@@ -58,7 +60,7 @@
 
             <div class="d-block mb-3">
                 <!-- TODO format this as a table -->
-                {% if details['is_in_repertoire'] and details['finish_date'] %}
+                {% if details['is_in_repertoire'] and details['start_date'] and details['finish_date'] %}
                 <h3 class="fw-bolder">When to play it next:</h3>  
                     <ul>
                         {% for day in schedule %}
