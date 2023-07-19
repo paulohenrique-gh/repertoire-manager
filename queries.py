@@ -306,7 +306,8 @@ def get_repertoire(user_id):
             pieces.id AS piece_id,
             pieces.title AS title,
             MAX(composers.name) AS composer,
-            MIN(calendar.date_to_play) AS date_to_play
+            MIN(calendar.date_to_play) AS date_to_play,
+            MAX(calendar.date_to_play) AS last_date_to_play
         FROM pieces
         JOIN users
             ON users.id = pieces.user_id
