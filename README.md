@@ -63,7 +63,7 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 
 ## Todo
 
-- [x] Fix bug that doesn't show next date in repertoire page
+- [x] 07.19.2023 - Fix bug that prevented next date from showing up on repertoire page 
 - [ ] Add to details page that redirects to Google or YouTube search of that piece  
 - [ ] Fix string capitalization on index page
 - [ ] Add page for searching with parameters (author, title, date, etc.)
