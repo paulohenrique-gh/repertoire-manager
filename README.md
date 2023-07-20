@@ -63,8 +63,9 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 
 ## Todo
 
-- [x] 07.19.2023 - Fix bug that prevented next date from showing up on repertoire page 
-- [ ] Add to details page that redirects to Google or YouTube search of that piece  
+- [x] 07.19.2023 - Fix bug that prevented next date from showing up on repertoire page
+- [ ] Add to details page links that redirect to Google or YouTube search of that piece
+- [x] Add a section that shows what to play today
 - [ ] Fix string capitalization on index page
 - [ ] Add page for searching with parameters (author, title, date, etc.)
 - [ ] Add sorting to index and repertoire

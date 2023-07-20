@@ -24,8 +24,15 @@ def index():
         return redirect("/login")
     
     latest = get_latest_entries(session["user_id"], 5)
+    play_today = search_calendar(datetime.now().date(),
+                                 datetime.now().date(),
+                                 session["user_id"])
     
-    return render_template("index.html", latest=latest)
+    print(play_today[0]['pieces'])
+    
+    return render_template("index.html",
+                            latest=latest,
+                            play_today=play_today[0]['pieces'])
 
 
 @app.route("/view_all")
@@ -432,8 +439,7 @@ def remove(id):
     flash("Piece removed from collection successfully")
     return redirect("/")
 
-# FIXME - return last date do play in current rotation
-# of each piece and pass it to the template
+
 @app.route("/repertoire")
 def repertoire():
 
