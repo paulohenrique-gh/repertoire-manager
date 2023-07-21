@@ -23,6 +23,7 @@
                 {% endif %}
             
                 <h2 class="fw-bolder">Composer: <span class="fw-lighter d-block d-md-inline-flex">{{ details['composer'] }}</span></h2>
+                
             </div>
             
             <hr>
@@ -54,6 +55,16 @@
                     <h3 class="fw-bolder">Not finished yet. <span class="fw-lighter"><a class="edit-link" href="/edit/{{ piece_id }}">Edit</a>
                         to select a finish date</span></h3>
                 {% endif %}
+                
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-6 text-end">
+                    <a class="footer-link" href="{{ details['google_string'] }}" target="_blank">Google</a>
+                </div>
+                <div class="col-6 text-start">
+                    <!-- TODO Add confirmation -->
+                    <a class="footer-link" href="{{ details['youtube_string'] }}" target="_blank">YouTube</a>
+                </div>
             </div>
             
             <hr>

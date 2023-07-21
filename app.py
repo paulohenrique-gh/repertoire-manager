@@ -313,6 +313,24 @@ def details(id):
     
     details = get_piece_details(session["user_id"], id)
     schedule = get_piece_schedule(id)
+    
+    # https://www.google.com/search?q=Pyotr Tchaikovsky+Old French Song+Opus 39+Number 16+filetype:pdf
+
+    details['google_string'] = f"""
+        https://www.google.com/search?q={details['composer']}
+        +{details['title']}
+        +{details['opus']}
+        +{details['number_in_opus']}
+        +{details['movement'] if details['movement'] else ""}
+        +filetype:pdf"""
+    
+    details['youtube_string'] = f"""
+        https://www.youtube.com/results?search_query={details['composer']}
+        +{details['title']}
+        +{details['opus']}
+        +{details['number_in_opus']}
+        +{details['movement'] if details['movement'] else ""}"""
+
 
     return render_template("details.html", 
                             details=details,
