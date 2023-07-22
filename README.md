@@ -66,6 +66,7 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 - [x] 07.19.2023 - Fix bug that prevented next date from showing up on repertoire page
 - [x] 07.21.2023 - Add to details page links that redirect to Google or YouTube search of that piece
 - [x] 07.20.2023 - Add a section that shows what to play today
+- [x] 07.22.2023 - Fix bug in the dates of repertoire page
 - [ ] Show pieces you are currently learning (no finish date)
 - [ ] Fix string capitalization on index page
 - [ ] Add page for searching with parameters (author, title, date, etc.)

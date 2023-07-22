@@ -465,13 +465,31 @@ def repertoire():
         return redirect("/login")
     
     repertoire = get_repertoire(session["user_id"])
-    for piece in repertoire:
+    # for piece in repertoire:
+    #     print(piece)
+
+    # CURRENTLY IN ROTATION
+    repertoire_in_rotation = get_pieces_in_rotation(session["user_id"])
+    print("IN ROTATION")
+    for piece in repertoire_in_rotation:
+        print(piece)
+
+    # IN REPERTOIRE BUT NOT IN ROTATION
+    repertoire_not_rotation = get_pieces_not_rotation(session["user_id"])
+    print("NOT IN ROTATION")
+    for piece in repertoire_not_rotation:
         print(piece)
     
+    # return render_template("repertoire.html",
+    #                        repertoire=repertoire,
+    #                        today=datetime.now().date())
+
     return render_template("repertoire.html",
-                           repertoire=repertoire,
+                           repertoire_in_rotation=repertoire_in_rotation,
+                           repertoire_not_rotation=repertoire_not_rotation,
                            today=datetime.now().date())
 
+    
 
 @app.route("/reset", methods=["POST"])
 def reset():

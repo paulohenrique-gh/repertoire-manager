@@ -6,10 +6,10 @@
 
 {% block main %}
 
-    <div class="text-center fs-5">
+    <div class="text-center">
         <h1 class="mb-3 d-block px-5 fw-bolder">Repertoire</h1>
         <div class="container mt-5">
-            {% if not repertoire %}
+            {% if not repertoire_in_rotation and not repertoire_not_rotation %}
                 <a href="/add_piece" class="entry-link">                    
                     <div class="row my-2 rounded-1 dark-gradient justify-content-center">
                         <div class="col-6 py-2 text-center">
@@ -18,37 +18,76 @@
                     </div>
                 </a>
             {% else %}
-                {% for piece in repertoire %}
-                    <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
-                        <div class="row my-2 rounded-1 dark-gradient justify-content-center align-items-center">
-                            <div class="col-md-4 py-2 text-md-end">
-                                {{ piece["title"].title() }}
-                            </div>
-                            <div class="col-md-4 py-2 text-md-start">
-                                {{ piece["composer"].title() }}
-                            </div>
-                            <div class="col-md-4 py-2 text-center d-flex justify-content-center">
-                                <div class="row align-items-center d-flex">
-                                    <div class="col-6 text-nowrap text-start">
-                                        {% if piece["last_date_to_play"] >= today %}
-                                            Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
-                                        {% else %}
-                                            Rotation finished
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-6 ps-5 align-items-center">
-                                        <form action="/reset" method="post">
-                                            <input type="hidden" name="id" value="{{ piece['piece_id'] }}">
-                                            <button type="submit" class="form-control btn btn-reset p-0">Reset</button>
-                                        </form>
+                {% if repertoire_in_rotation %}
+
+                    <h2 class="mb-3 d-block px-5 fw-bolder">In Rotation</h2>
+                    {% for piece in repertoire_in_rotation %}
+                        <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
+                            <div class="row my-2 rounded-1 dark-gradient justify-content-center align-items-center">
+                                <div class="col-md-4 py-2 text-md-end">
+                                    {{ piece["title"].title() }}
+                                </div>
+                                <div class="col-md-4 py-2 text-md-start">
+                                    {{ piece["composer"].title() }}
+                                </div>
+                                <div class="col-md-4 py-2 text-center d-flex justify-content-center">
+                                    <div class="row align-items-center d-flex">
+                                        <div class="col-6 text-nowrap text-start">
+                                            {% if piece["last_date_to_play"] >=today %}
+                                                Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
+                                            {% else %}
+                                                Rotation finished
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-6 ps-5 align-items-center">
+                                            <form action="/reset" method="post">
+                                                <input type="hidden" name="id" value="{{ piece['piece_id'] }}">
+                                                <button type="submit" class="form-control btn btn-reset p-0">Reset</button>
+                                            </form>
+                                        </div>
+                                        
                                     </div>
                                     
                                 </div>
-                                
                             </div>
-                        </div>
-                    </a>
-                {% endfor %}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+                {% if repertoire_not_rotation %}
+
+                    <h2 class="pt-4 mb-3 d-block px-5 fw-bolder">Not in Rotation</h2>
+                    {% for piece in repertoire_not_rotation %}
+                        <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
+                            <div class="row my-2 rounded-1 dark-gradient justify-content-center align-items-center">
+                                <div class="col-md-4 py-2 text-md-end">
+                                    {{ piece["title"].title() }}
+                                </div>
+                                <div class="col-md-4 py-2 text-md-start">
+                                    {{ piece["composer"].title() }}
+                                </div>
+                                <div class="col-md-4 py-2 text-center d-flex justify-content-center">
+                                    <div class="row align-items-center d-flex">
+                                        <div class="col-6 text-nowrap text-start">
+                                            {% if piece["last_date_to_play"] >=today %}
+                                                Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
+                                            {% else %}
+                                                Rotation finished
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-6 ps-5 align-items-center">
+                                            <form action="/reset" method="post">
+                                                <input type="hidden" name="id" value="{{ piece['piece_id'] }}">
+                                                <button type="submit" class="form-control btn btn-reset p-0">Reset</button>
+                                            </form>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endif %}
             {% endif %}
 
         </div>
