@@ -201,6 +201,29 @@ def get_piece_schedule(piece_id):
     return schedule
 
 
+def get_pieces_learning(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """SELECT 
+                pieces.id AS piece_id,
+                pieces.title AS title,
+                composers.name AS composer
+            FROM pieces
+            JOIN composers
+                ON composers.id = pieces.composer_id
+            WHERE user_id = %s
+                AND finish_date IS NULL;"""
+    values = (user_id,)
+
+    db.execute(sql, values)
+    learning = db.fetchall()
+
+    if db_connection:
+        db_connection.close()
+
+    return learning
+
+
 def remove_piece(piece_id):
     db_connection = db_connect()
     db = db_connection.cursor(dictionary=True, buffered=True)

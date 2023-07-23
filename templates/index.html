@@ -37,11 +37,35 @@
     </section>
 
     <section class="container mt-5">
-        <h1 class="mb-3 d-block px-5 fw-bolder">Play today</h1>
+        <h1 class="mb-3 d-block px-5 fw-bolder">Play Today</h1>
         <div class="row">
             <div class="col-12">
                 {% if play_today %}
                     {% for piece in play_today %}
+                        <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
+                            <div class="row my-2 rounded-1 dark-gradient justify-content-center">
+                                <div class="col-md-6 py-2 text-md-end">
+                                    {{ piece["title"].title() }}
+                                </div>
+                                <div class="col-md-6 py-2 text-md-start">
+                                    {{ piece["composer"].title() }}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}    
+                {% else %}
+
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <h1 class="mb-3 d-block px-5 fw-bolder">Currently Learning</h1>
+        <div class="row">
+            <div class="col-12">
+                {% if currently_learning %}
+                    {% for piece in currently_learning %}
                         <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
                             <div class="row my-2 rounded-1 dark-gradient justify-content-center">
                                 <div class="col-md-6 py-2 text-md-end">

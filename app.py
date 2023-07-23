@@ -27,12 +27,15 @@ def index():
     play_today = search_calendar(datetime.now().date(),
                                  datetime.now().date(),
                                  session["user_id"])
+    currently_learning = get_pieces_learning(session["user_id"])
     
-    print(play_today[0]['pieces'])
+    for piece in currently_learning:
+        print(piece)
     
     return render_template("index.html",
                             latest=latest,
-                            play_today=play_today[0]['pieces'])
+                            play_today=play_today[0]['pieces'],
+                            currently_learning=currently_learning)
 
 
 @app.route("/view_all")
@@ -313,23 +316,25 @@ def details(id):
     
     details = get_piece_details(session["user_id"], id)
     schedule = get_piece_schedule(id)
-    
-    # https://www.google.com/search?q=Pyotr Tchaikovsky+Old French Song+Opus 39+Number 16+filetype:pdf
+
+    opus = f"op+{details['opus']}" if details['opus'] else ""
+    number = f"number+{details['number_in_opus']}" if details['number_in_opus'] else ""
+    movement =f"movement+{details['movement']}" if details['movement'] else ""
 
     details['google_string'] = f"""
         https://www.google.com/search?q={details['composer']}
         +{details['title']}
-        +{details['opus']}
-        +{details['number_in_opus']}
-        +{details['movement'] if details['movement'] else ""}
+        +{opus}
+        +{number}
+        +{movement}
         +filetype:pdf"""
     
     details['youtube_string'] = f"""
         https://www.youtube.com/results?search_query={details['composer']}
         +{details['title']}
-        +{details['opus']}
-        +{details['number_in_opus']}
-        +{details['movement'] if details['movement'] else ""}"""
+        +{opus}
+        +{number}
+        +{movement}"""
 
 
     return render_template("details.html", 
@@ -463,10 +468,6 @@ def repertoire():
 
     if not is_logged_in():
         return redirect("/login")
-    
-    repertoire = get_repertoire(session["user_id"])
-    # for piece in repertoire:
-    #     print(piece)
 
     # CURRENTLY IN ROTATION
     repertoire_in_rotation = get_pieces_in_rotation(session["user_id"])
@@ -480,15 +481,10 @@ def repertoire():
     for piece in repertoire_not_rotation:
         print(piece)
     
-    # return render_template("repertoire.html",
-    #                        repertoire=repertoire,
-    #                        today=datetime.now().date())
-
     return render_template("repertoire.html",
                            repertoire_in_rotation=repertoire_in_rotation,
                            repertoire_not_rotation=repertoire_not_rotation,
                            today=datetime.now().date())
-
     
 
 @app.route("/reset", methods=["POST"])
