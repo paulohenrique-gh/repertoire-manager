@@ -1,4 +1,5 @@
 import os
+import string
 
 import mysql.connector
 from flask import session
@@ -38,10 +39,18 @@ def format_calendar(calendar):
         for result in calendar:
             if result['date_to_play'] == date:
                 pieces.append({
-                    'title': result['title'],
-                    'composer': result['composer'],
+                    'title': string.capwords(result['title']),
+                    'composer': string.capwords(result['name']),
                     'piece_id': result['piece_id']
                 })    
         formatted_list.append({'date_to_play': date, 'pieces': pieces})
 
     return formatted_list
+
+def capitalize(rows):
+    for row in rows:
+        row['title'] = string.capwords(row['title'])
+        row['name'] = string.capwords(row['name'])
+        print(row)
+
+    return rows

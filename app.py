@@ -27,10 +27,10 @@ def index():
     play_today = search_calendar(datetime.now().date(),
                                  datetime.now().date(),
                                  session["user_id"])
+    
+    print(play_today)
     currently_learning = get_pieces_learning(session["user_id"])
 
-    print(latest)
-    
     return render_template("index.html",
                             latest=latest,
                             play_today=play_today[0]['pieces'],

@@ -153,7 +153,6 @@ def get_all_entries(user_id):
     for row in rows:
         row['title'] = string.capwords(row['title'])
         row['name'] = string.capwords(row['name'])
-        print(row)
 
     return rows
 
@@ -223,7 +222,7 @@ def get_pieces_learning(user_id):
     sql = """SELECT 
                 pieces.id AS piece_id,
                 pieces.title AS title,
-                composers.name AS composer
+                composers.name AS name
             FROM pieces
             JOIN composers
                 ON composers.id = pieces.composer_id
@@ -236,6 +235,8 @@ def get_pieces_learning(user_id):
 
     if db_connection:
         db_connection.close()
+
+    capitalize(learning)
 
     return learning
 
@@ -455,7 +456,7 @@ def search_calendar(start, end, user_id):
         SELECT
             date_to_play,
             pieces.title AS title,
-            composers.name AS composer,
+            composers.name AS name,
             calendar.piece_id AS piece_id
         FROM calendar
         JOIN pieces
@@ -471,5 +472,8 @@ def search_calendar(start, end, user_id):
     db.execute(sql, values)
     search_results = db.fetchall()
     search_results = format_calendar(search_results)
+
+    print(search_results)
+   
 
     return search_results
