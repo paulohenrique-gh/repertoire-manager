@@ -120,6 +120,14 @@ def get_latest_entries(user_id, limit):
     if db_connection:
         db_connection.close()
 
+    if not rows:
+        return
+    
+    for row in rows:
+        row['title'] = string.capwords(row['title'])
+        row['name'] = string.capwords(row['name'])
+        print(row)
+
     return rows
 
 
@@ -138,6 +146,14 @@ def get_all_entries(user_id):
 
     if db_connection:
         db_connection.close()
+
+    if not rows:
+        return
+    
+    for row in rows:
+        row['title'] = string.capwords(row['title'])
+        row['name'] = string.capwords(row['name'])
+        print(row)
 
     return rows
 

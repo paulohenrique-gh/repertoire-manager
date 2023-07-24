@@ -68,7 +68,7 @@ Video Demo: https://youtu.be/u_XZbLFKVB0
 - [x] 07.20.2023 - Add a section that shows what to play today
 - [x] 07.22.2023 - Fix bug in the dates of repertoire page
 - [x] 07.23.2023 - Show pieces you are currently learning (no finish date)
-- [ ] Fix string capitalization on index page
+- [x] 07.24.2023 - Fix string capitalization on index page
 - [ ] Add page for searching with parameters (author, title, date, etc.)
 - [ ] Add sorting to index and repertoire
 - [ ] Password change

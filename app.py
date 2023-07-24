@@ -28,9 +28,8 @@ def index():
                                  datetime.now().date(),
                                  session["user_id"])
     currently_learning = get_pieces_learning(session["user_id"])
-    
-    for piece in currently_learning:
-        print(piece)
+
+    print(latest)
     
     return render_template("index.html",
                             latest=latest,
