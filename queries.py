@@ -477,3 +477,17 @@ def search_calendar(start, end, user_id):
    
 
     return search_results
+
+
+def get_total_in_collection(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT COUNT(title) AS total_pieces_col
+        FROM pieces
+        WHERE user_id = %s;"""
+    
+    db.execute(sql, (user_id,))
+    total_in_collection = db.fetchall()
+
+    return total_in_collection[0]['total_pieces_col']

@@ -30,11 +30,16 @@ def index():
     
     print(play_today)
     currently_learning = get_pieces_learning(session["user_id"])
+    total_in_collection = get_total_in_collection(session["user_id"])
+
+    #TODO
+    get_total_in_repertoire
 
     return render_template("index.html",
                             latest=latest,
                             play_today=play_today[0]['pieces'],
-                            currently_learning=currently_learning)
+                            currently_learning=currently_learning,
+                            total_in_collection=total_in_collection)
 
 
 @app.route("/view_all")
