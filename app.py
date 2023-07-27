@@ -33,13 +33,14 @@ def index():
     total_in_collection = get_total_in_collection(session["user_id"])
 
     #TODO
-    get_total_in_repertoire
+    total_in_repertoire = get_total_in_repertoire(session["user_id"])
 
     return render_template("index.html",
                             latest=latest,
                             play_today=play_today[0]['pieces'],
                             currently_learning=currently_learning,
-                            total_in_collection=total_in_collection)
+                            total_in_collection=total_in_collection,
+                            total_in_repertoire=total_in_repertoire)
 
 
 @app.route("/view_all")

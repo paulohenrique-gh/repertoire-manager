@@ -488,6 +488,21 @@ def get_total_in_collection(user_id):
         WHERE user_id = %s;"""
     
     db.execute(sql, (user_id,))
-    total_in_collection = db.fetchall()
+    total_in_collection = db.fetchall()[0]['total_pieces_col']
 
-    return total_in_collection[0]['total_pieces_col']
+    return total_in_collection
+
+
+def get_total_in_repertoire(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT COUNT(title) AS total_pieces_rep
+        FROM pieces
+        WHERE user_id = %s
+            AND is_in_repertoire = 1;"""
+    
+    db.execute(sql, (user_id,))
+    total_in_repertoire = db.fetchall()[0]['total_pieces_rep']
+
+    return total_in_repertoire
