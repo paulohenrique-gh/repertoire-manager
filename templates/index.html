@@ -84,14 +84,20 @@
 
     <section class="container mt-5">
         <h1 class="mb-3 d-block px-5 fw-bolder">Stats</h1>
-        <div class="row my-2">
-            <div class="col-12 text-center">
-                Total pieces in collection: <span class="fw-bolder">{{ total_in_collection }}</span>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Total pieces in collection:
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ total_in_collection }}</span>
             </div>
         </div>
-        <div class="row my-2">
-            <div class="col-12 text-center">
-                Total pieces in repertoire: <span class="fw-bolder">{{ total_in_repertoire }}</span>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Total pieces in repertoire: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ total_in_repertoire }}</span>
             </div>
         </div>
     </section>
