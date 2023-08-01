@@ -506,3 +506,19 @@ def get_total_in_repertoire(user_id):
     total_in_repertoire = db.fetchall()[0]['total_pieces_rep']
 
     return total_in_repertoire
+
+# Returns an integer representing the highest level in a piece in the user's collection 
+def get_highest_level(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT difficulty_level
+        FROM pieces
+        WHERE user_id = %s
+        ORDER BY difficulty_level DESC
+        LIMIT 1;"""
+    
+    db.execute(sql, (user_id,))
+    highest_level = db.fetchall()[0]["difficulty_level"]
+    
+    return highest_level
