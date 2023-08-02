@@ -522,3 +522,26 @@ def get_highest_level(user_id):
     highest_level = db.fetchall()[0]["difficulty_level"]
     
     return highest_level
+
+# Returns dictionary with the piece that took the longest to learn
+# For now it only returns one even if there's multiple pieces with the same amount of days
+def get_longest_to_learn(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT 
+            id,
+            title,
+            start_date,
+            finish_date,
+            DATEDIFF(finish_date, start_date) AS total_days
+        FROM pieces
+        WHERE user_id = %s
+        ORDER BY total_days DESC
+        LIMIT 1;"""
+    
+    db.execute(sql, (user_id,))
+    longest_to_learn = db.fetchall()[0]
+    longest_to_learn["title"] = string.capwords(longest_to_learn["title"])
+    return longest_to_learn
+    
