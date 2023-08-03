@@ -110,10 +110,18 @@
         </div>
         <div class="row my-2 align-items-center">
             <div class="col-6 text-end">
-                Longest time spent (days | piece): 
+                Longest to learn: 
             </div>
             <div class="col-6 text-start">
-                <span class="fw-bolder">{{ longest_to_learn['total_days'] }} | {{ longest_to_learn['title'] }} </span>
+                <span class="fw-bolder">{{ longest_to_learn['title'] }} - {{ longest_to_learn['total_days'] }} days</span>
+            </div>
+        </div>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Top composer: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">Composer name - Number of pieces</span>
             </div>
         </div>
     </section>
