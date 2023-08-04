@@ -477,3 +477,89 @@ def search_calendar(start, end, user_id):
    
 
     return search_results
+
+
+def get_total_in_collection(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT COUNT(title) AS total_pieces_col
+        FROM pieces
+        WHERE user_id = %s;"""
+    
+    db.execute(sql, (user_id,))
+    total_in_collection = db.fetchall()[0]['total_pieces_col']
+
+    return total_in_collection
+
+
+def get_total_in_repertoire(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT COUNT(title) AS total_pieces_rep
+        FROM pieces
+        WHERE user_id = %s
+            AND is_in_repertoire = 1;"""
+    
+    db.execute(sql, (user_id,))
+    total_in_repertoire = db.fetchall()[0]['total_pieces_rep']
+
+    return total_in_repertoire
+
+# Returns an integer representing the highest level in a piece in the user's collection 
+def get_highest_level(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT difficulty_level
+        FROM pieces
+        WHERE user_id = %s
+        ORDER BY difficulty_level DESC
+        LIMIT 1;"""
+    
+    db.execute(sql, (user_id,))
+    highest_level = db.fetchall()[0]["difficulty_level"]
+    
+    return highest_level
+
+# Returns dictionary with the piece that took the longest to learn
+# For now it only returns one even if there's multiple pieces with the same amount of days
+def get_longest_to_learn(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT 
+            id,
+            title,
+            start_date,
+            finish_date,
+            DATEDIFF(finish_date, start_date) AS total_days
+        FROM pieces
+        WHERE user_id = %s
+        ORDER BY total_days DESC
+        LIMIT 1;"""
+    
+    db.execute(sql, (user_id,))
+    longest_to_learn = db.fetchall()[0]
+    longest_to_learn["title"] = string.capwords(longest_to_learn["title"])
+    return longest_to_learn
+
+
+def get_top_composer(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT composers.name, pieces.composer_id, COUNT(*) AS count
+        FROM pieces
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        WHERE user_id = %s
+        GROUP BY composer_id
+        ORDER BY count DESC;"""
+    
+    db.execute(sql, (user_id,))
+    top_composer = db.fetchall()[0]
+    top_composer["name"] =string.capwords(top_composer["name"])
+    
+    return top_composer

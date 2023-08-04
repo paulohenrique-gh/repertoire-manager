@@ -30,11 +30,21 @@ def index():
     
     print(play_today)
     currently_learning = get_pieces_learning(session["user_id"])
+    total_in_collection = get_total_in_collection(session["user_id"])
+    total_in_repertoire = get_total_in_repertoire(session["user_id"])
+    highest_level = get_highest_level(session["user_id"])
+    longest_to_learn = get_longest_to_learn(session["user_id"])
+    top_composer = get_top_composer(session["user_id"])
 
     return render_template("index.html",
                             latest=latest,
                             play_today=play_today[0]['pieces'],
-                            currently_learning=currently_learning)
+                            currently_learning=currently_learning,
+                            total_in_collection=total_in_collection,
+                            total_in_repertoire=total_in_repertoire,
+                            highest_level=highest_level,
+                            longest_to_learn=longest_to_learn,
+                            top_composer=top_composer)
 
 
 @app.route("/view_all")

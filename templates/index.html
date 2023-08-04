@@ -77,9 +77,51 @@
                             </div>
                         </a>
                     {% endfor %}    
-                {% else %}
-
                 {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <h1 class="mb-3 d-block px-5 fw-bolder">Stats</h1>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Total pieces in collection:
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ total_in_collection }}</span>
+            </div>
+        </div>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Total pieces in repertoire: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ total_in_repertoire }}</span>
+            </div>
+        </div>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Highest difficulty level: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ highest_level }}</span>
+            </div>
+        </div>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Longest to learn: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ longest_to_learn['title'] }} - {{ longest_to_learn['total_days'] }} days</span>
+            </div>
+        </div>
+        <div class="row my-2 align-items-center">
+            <div class="col-6 text-end">
+                Top composer: 
+            </div>
+            <div class="col-6 text-start">
+                <span class="fw-bolder">{{ top_composer["name"] }} - {{ top_composer["count"] }} pieces</span>
             </div>
         </div>
     </section>
