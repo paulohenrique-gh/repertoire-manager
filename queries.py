@@ -544,4 +544,22 @@ def get_longest_to_learn(user_id):
     longest_to_learn = db.fetchall()[0]
     longest_to_learn["title"] = string.capwords(longest_to_learn["title"])
     return longest_to_learn
+
+
+def get_top_composer(user_id):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT composers.name, pieces.composer_id, COUNT(*) AS count
+        FROM pieces
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        WHERE user_id = %s
+        GROUP BY composer_id
+        ORDER BY count DESC;"""
     
+    db.execute(sql, (user_id,))
+    top_composer = db.fetchall()[0]
+    top_composer["name"] =string.capwords(top_composer["name"])
+    
+    return top_composer
