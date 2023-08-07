@@ -108,3 +108,7 @@ h3, li {
 .search-list-item {
    list-style-type: none;
 }
+
+#search {
+   max-width: 40%;
+}

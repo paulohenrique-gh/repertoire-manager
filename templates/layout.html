@@ -14,13 +14,24 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-custom">
         <div class="container-fluid">
           <a class="navbar-brand" href="/" id="logo" class="ms-auto">Repertoire Manager</a>
+          <div class="input-group" id="search">
+            <input type="text" class="form-control" placeholder="Enter name of the piece or composer">
+            <button class="btn btn-outline-secondary" type="button">Search</button>
+          </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+          
 
           <div class="collapse navbar-collapse" id="navbarNav">
             {% if session["user_id"] %}
               <ul class="navbar-nav ms-auto">
+                <!-- <li class="nav-item">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter name of the piece or composer">
+                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                  </div>
+                </li> -->
                 <li class="nav-item">
                   <a class="nav-link"href="/add_piece">Add piece</a>
                 </li>
@@ -32,9 +43,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/calendar">Calendar</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Search</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/logout">Logout</a>
