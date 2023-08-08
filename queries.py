@@ -563,3 +563,18 @@ def get_top_composer(user_id):
     top_composer["name"] =string.capwords(top_composer["name"])
     
     return top_composer
+
+def get_search_results(user_id, search):
+    db_connection = db_connect()
+    db = db_connection.cursor(dictionary=True, buffered=True)
+    sql = """
+        SELECT * FROM pieces
+        JOIN composers
+            ON composers.id = pieces.composer_id
+        WHERE (composers.name LIKE "%\%s%" OR pieces.title LIKE "%\%s%")
+            AND user_id = %s;"""
+
+    db.execute(sql, (search, search, user_id))
+    results = db.fetchall()
+
+    return results
