@@ -60,7 +60,7 @@ h3, li {
    border-radius: 1rem 1rem 0 0
 }
 
-.form-labels {
+.form-labels, .search-button {
    color: #f5f3f5;
 }
 

@@ -549,3 +549,9 @@ def calendar():
 
         
     return render_template("calendar.html")
+
+@app.route("/search/<q>")
+def search(q):
+    
+    if not is_logged_in():
+        return redirect("/login")
