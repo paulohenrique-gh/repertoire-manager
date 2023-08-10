@@ -555,3 +555,5 @@ def search(q):
     
     if not is_logged_in():
         return redirect("/login")
+    
+    return render_template("search_results.html")
