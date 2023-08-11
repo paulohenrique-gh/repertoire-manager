@@ -111,4 +111,5 @@ h3, li {
 
 #search {
    max-width: 40%;
+   display: inline;
 }

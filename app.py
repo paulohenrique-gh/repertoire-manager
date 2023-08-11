@@ -550,10 +550,13 @@ def calendar():
         
     return render_template("calendar.html")
 
-@app.route("/search/<q>")
-def search(q):
+@app.route("/search")
+def search():
     
     if not is_logged_in():
         return redirect("/login")
+    
+    search = request.args
+    print(search)
     
     return render_template("search_results.html")
