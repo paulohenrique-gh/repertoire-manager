@@ -28,7 +28,11 @@ def index():
                                  datetime.now().date(),
                                  session["user_id"])
     
-    print(play_today)
+    if play_today:
+        print("yesssssssss")
+    else:
+        print("noooooooooo")
+
     currently_learning = get_pieces_learning(session["user_id"])
     total_in_collection = get_total_in_collection(session["user_id"])
     total_in_repertoire = get_total_in_repertoire(session["user_id"])
@@ -38,7 +42,7 @@ def index():
 
     return render_template("index.html",
                             latest=latest,
-                            play_today=play_today[0]['pieces'],
+                            play_today=play_today, #FIXME
                             currently_learning=currently_learning,
                             total_in_collection=total_in_collection,
                             total_in_repertoire=total_in_repertoire,
