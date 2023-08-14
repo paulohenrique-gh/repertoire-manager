@@ -14,18 +14,18 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-custom">
         <div class="container-fluid">
           <a class="navbar-brand" href="/" id="logo" class="ms-auto">Repertoire Manager</a>
+          <form action="/search" id="search" class="w-auto">
+            <div class="input-group">
+                  <input type="text" class="form-control"  name="search" placeholder="Enter name of the piece or composer">
+                  <button class="btn btn-outline-secondary search-button" type="submit">Search</button>   
+            </div>
+          </form>
           
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             {% if session["user_id"] %}
-              <form action="" id="search">
-                <div class="input-group">
-                      <input type="text" class="form-control"  name="search" placeholder="Enter name of the piece or composer">
-                      <button class="btn btn-outline-secondary search-button" type="button">Search</button>   
-                </div>
-              </form>
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                   <a class="nav-link"href="/add_piece">Add piece</a>
