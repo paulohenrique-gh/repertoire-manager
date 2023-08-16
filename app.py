@@ -556,7 +556,7 @@ def search():
     if not is_logged_in():
         return redirect("/login")
     
-    search = request.args
+    search = request.args.get("search").lower()
     print(search)
     
     return render_template("search_results.html")
