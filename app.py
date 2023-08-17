@@ -557,6 +557,8 @@ def search():
         return redirect("/login")
     
     search = request.args.get("search").lower()
+    search_results = get_search_results(session["user_id"], search)
     print(search)
+    print(len(search_results))
     
     return render_template("search_results.html")
