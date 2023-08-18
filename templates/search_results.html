@@ -6,6 +6,11 @@
 
 {% block main %}
 
-    Search results
+    <section class="text-center">
+        {% for result in results %}
+            <div>{{ result.title }} - {{ result.name }}</div>
+        {% endfor %}
+    </section>
+    
 
 {% endblock %}
