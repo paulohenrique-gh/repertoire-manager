@@ -7,9 +7,13 @@
 {% block main %}
 
     <section class="text-center">
-        {% for result in results %}
-            <div>{{ result.title }} - {{ result.name }}</div>
-        {% endfor %}
+        {% if results %}       
+            {% for result in results %}
+                <div>{{ result.title }} - {{ result.name }}</div>
+            {% endfor %}
+        {% else %}
+            No search parameters
+        {% endif %} 
     </section>
     
 

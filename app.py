@@ -557,7 +557,10 @@ def search():
         return redirect("/login")
     
     search = request.args.get("search").lower()
-    search_results = get_search_results(session["user_id"], search)
+    search_results = None
+    if search: 
+        search_results = get_search_results(session["user_id"], search)
+
     print(search)
     print(search_results)
     
