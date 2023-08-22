@@ -8,6 +8,7 @@
 
     <section class="text-center">
         {% if results %}       
+          <h1 class="mb-3 d-block px-5 fw-bolder">Search results for {{ search }}</h1> 
             {% for result in results %}
                 <div>{{ result.title }} - {{ result.name }}</div>
             {% endfor %}

@@ -564,4 +564,6 @@ def search():
     print(search)
     print(search_results)
     
-    return render_template("search_results.html", results=search_results)
+    return render_template("search_results.html",
+                           search=string.capwords(search),
+                           results=search_results)
