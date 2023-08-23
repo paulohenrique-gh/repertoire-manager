@@ -576,5 +576,5 @@ def get_search_results(user_id, search):
 
     db.execute(sql, (f"%{search}%", f"%{search}%", user_id))
     results = db.fetchall()
-
-    return results
+    
+    return capitalize(results)
