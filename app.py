@@ -38,7 +38,7 @@ def index():
 
     return render_template("index.html",
                             latest=latest,
-                            play_today=play_today[0]['pieces'],
+                            play_today=play_today,
                             currently_learning=currently_learning,
                             total_in_collection=total_in_collection,
                             total_in_repertoire=total_in_repertoire,
