@@ -566,8 +566,10 @@ def search():
     if search: 
         search_results = get_search_results(session["user_id"], search)
 
+    print('**********')
     print(search)
     print(search_results)
+    print('***********')
     
     if len(search_results) >= 1:
         return render_template("search_results.html",
