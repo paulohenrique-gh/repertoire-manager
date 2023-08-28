@@ -568,10 +568,13 @@ def get_search_results(user_id, search):
     db_connection = db_connect()
     db = db_connection.cursor(dictionary=True, buffered=True)
     sql = """
-        SELECT * FROM pieces
+        SELECT pieces.id AS id,
+            pieces.title AS title,
+            composers.name AS name
+        FROM pieces
         JOIN composers
             ON composers.id = pieces.composer_id
-        WHERE (composers.name LIKE %s OR pieces.title LIKE %s)
+        WHERE composers.name LIKE "%sonatina%" OR pieces.title LIKE "%sonatina%"
             AND user_id = %s;"""
 
     db.execute(sql, (f"%{search}%", f"%{search}%", user_id))
