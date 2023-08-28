@@ -553,3 +553,33 @@ def calendar():
 
         
     return render_template("calendar.html")
+
+@app.route("/search")
+def search():
+    
+    if not is_logged_in():
+        return redirect("/login")
+    
+    raw_search = request.args.get("search")
+    if not raw_search:
+        flash("No search parameters.")
+        return redirect("/index.html")
+
+    search = raw_search.lower()
+    search_results = None
+    if search: 
+        search_results = get_search_results(session["user_id"], search)
+
+    print('**********')
+    print(search)
+    print(search_results)
+    print('***********')
+    
+    if len(search_results) >= 1:
+        return render_template("search_results.html",
+                                raw_search=raw_search,
+                                search=string.capwords(search),
+                                results=search_results)
+    else:
+        flash(f"No results for {raw_search}.")
+        return redirect("/")
