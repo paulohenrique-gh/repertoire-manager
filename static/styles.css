@@ -103,6 +103,7 @@ h3, li {
 .btn-reset, .btn-reset:hover {
    background-color: #f5f3f5;
    color: #302b27da;
+   max-width: 50px;   
 }
 
 .search-list-item {

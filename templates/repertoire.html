@@ -55,7 +55,7 @@
                 {% endif %}
                 {% if repertoire_not_rotation %}
 
-                    <h2 class="pt-4 mb-3 d-block px-5 fw-bolder">Not in Rotation</h2>
+                    <h2 class="pt-4 mb-3 d-block px-5 fw-bolder">All pieces in your repertoire</h2>
                     {% for piece in repertoire_not_rotation %}
                         <a href="/details/{{ piece['piece_id'] }}" class="entry-link">                    
                             <div class="row my-2 rounded-1 dark-gradient justify-content-center align-items-center">
@@ -66,14 +66,10 @@
                                     {{ piece["composer"].title() }}
                                 </div>
                                 <div class="col-md-4 py-2 text-center d-flex justify-content-center">
-                                    <div class="row align-items-center d-flex">
-                                        <div class="col-6 text-nowrap text-start">
-                                            {% if piece["last_date_to_play"] >=today %}
-                                                Next: {{ piece["date_to_play"].strftime('%m.%d.%Y') }}
-                                            {% else %}
-                                                Rotation finished
-                                            {% endif %}
-                                        </div>
+                                    <!-- <div class="row align-items-center d-flex"> -->
+                                        <!-- <div class="col-6 text-nowrap text-start">
+                                            Click here to reset
+                                        </div> -->
                                         <div class="col-6 ps-5 align-items-center">
                                             <form action="/reset" method="post">
                                                 <input type="hidden" name="id" value="{{ piece['piece_id'] }}">
@@ -81,7 +77,7 @@
                                             </form>
                                         </div>
                                         
-                                    </div>
+                                    <!-- </div> -->
                                     
                                 </div>
                             </div>

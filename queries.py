@@ -399,23 +399,16 @@ def get_pieces_not_rotation(user_id):
     db_connection = db_connect()
     db = db_connection.cursor(dictionary=True, buffered=True)
     sql = """
-        SELECT 
-            pieces.id AS piece_id,
+        SELECT pieces.id AS piece_id,
             pieces.title AS title,
-            MAX(composers.name) AS composer,
-            MIN(calendar.date_to_play) AS date_to_play, 
-            MAX(calendar.date_to_play) AS last_date_to_play
+            composers.name AS composer
         FROM pieces
         JOIN users
             ON users.id = pieces.user_id
         JOIN composers
             ON composers.id = pieces.composer_id
-        JOIN calendar
-            ON calendar.piece_id = pieces.id
-        WHERE users.id = %s
-        GROUP BY pieces.id
-        HAVING last_date_to_play < CURRENT_DATE()
-        ORDER BY date_to_play;"""
+        WHERE is_in_repertoire = 1
+            AND user_id = %s;"""
     
     db.execute(sql, (user_id,))
     repertoire = db.fetchall()
